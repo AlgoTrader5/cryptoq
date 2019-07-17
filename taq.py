@@ -8,15 +8,19 @@ from cryptofeed import FeedHandler
 from cryptofeed.exchanges import Coinbase
 from cryptofeed.defines import TRADES
 
+import yaml
 from datetime import datetime
 from kdb_client import KdbClient
 
 
+kdb_client = KdbClient(host='localhost', port=5002)
+
 async def trade(feed, pair, id, timestamp, side, amount, price):
     hwt = str(datetime.utcnow().isoformat()).replace("T","D").replace("-",".")
     ts = str(datetime.fromtimestamp(timestamp).isoformat()).replace("T","D").replace("-",".")
+    amount = float(amount)
     kdb_client.exequery(f"`trades insert (`timestamp${hwt};`timestamp${ts};`{feed};`$\"{pair}\";`{side};{amount};{price};{id})")
-    
+
 async def book(feed, pair, book, timestamp):
     hwt = str(datetime.utcnow().isoformat()).replace("T","D").replace("-",".")
     ts = str(datetime.fromtimestamp(timestamp).isoformat()).replace("T","D").replace("-",".")
@@ -26,18 +30,24 @@ async def book(feed, pair, book, timestamp):
     ask_size = float(book['ask'][ask_price])
     kdb_client.exequery(f"`quotes insert (`timestamp${hwt};`timestamp${ts};`{feed};`$\"{pair}\";{bid_size};{bid_price};{ask_price};{ask_size})")
 
-    
+
+##### Subscriptions Config #####
+config = None
+try:
+    with open('subscriptions.yaml', encoding='utf8') as fd:
+        config = yaml.safe_load(fd)
+except IOError:
+    print("subscriptions file is missing")
+
+
 def main():
-        try:
-            kdb_client = KdbClient(host='localhost', port=5002)
-            f = FeedHandler()
-            f.add_feed(Coinbase(channels=[TRADES], pairs=['ETH-USD'], callbacks={TRADES: TradeCallback(trade)}))
-            f.run()
-        finally:
-            kdb_client.close()
+    try:
+        f = FeedHandler()
+        f.add_feed(Coinbase(channels=[TRADES], pairs=config['coinbase']['pairs'], callbacks={TRADES: TradeCallback(trade)}))
+        f.run()
+    finally:
+        kdb_client.close()
         
-
-
 
 if __name__ == '__main__':
     main()
