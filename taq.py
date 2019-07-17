@@ -17,12 +17,24 @@ q.open()
 q.sync("""trades:([]
 	utc_datetime:`timestamp$();
 	exch_datetime:`timestamp$();
+	exch:`symbol$();
 	sym:`symbol$();
 	side:`symbol$();
 	amount:`float$();
 	price:`float$();
-	exch:`symbol$();
 	order_id:`long$())""")
+
+q.sync("""quotes:([]
+	utc_datetime:`timestamp$();
+	exch_datetime:`timestamp$();
+	exch:`symbol$();
+	sym:`symbol$();
+	bnum:`int$();
+	bsize:`float$();
+	bid:`float$();
+	ask:`float$();
+	asize:`float$();
+	anum:`int$())""")
 
 async def trade(feed, pair, id, timestamp, side, amount, price):
 	hwt = str(datetime.utcnow().isoformat()).replace("T","D").replace("-",".")
