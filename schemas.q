@@ -13,9 +13,7 @@ quotes:([]
 	exch_datetime:`timestamp$();
 	exch:`symbol$();
 	sym:`symbol$();
-	bnum:`int$();
 	bsize:`float$();
 	bid:`float$();
 	ask:`float$();
-	asize:`float$();
-	anum:`int$())
+	asize:`float$())
