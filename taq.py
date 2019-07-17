@@ -1,5 +1,9 @@
 '''
-taken from https://kx.com/blog/combining-high-frequency-cryptocurrency-venue-data-using-kdb/
+Records trade and quote data to kdb+
+
+exchange and product subscriptions configured in subscriptions.yaml 
+
+modified from https://kx.com/blog/combining-high-frequency-cryptocurrency-venue-data-using-kdb/
 '''
 from cryptofeed.callback import TradeCallback
 from cryptofeed import FeedHandler
@@ -14,27 +18,27 @@ from qpython import qconnection
 q = qconnection.QConnection(host='localhost', port=5002, pandas=True)
 q.open()
 
-q.sync("""trades:([]
-	utc_datetime:`timestamp$();
-	exch_datetime:`timestamp$();
-	exch:`symbol$();
-	sym:`symbol$();
-	side:`symbol$();
-	amount:`float$();
-	price:`float$();
-	order_id:`long$())""")
+# q.sync("""trades:([]
+# 	utc_datetime:`timestamp$();
+# 	exch_datetime:`timestamp$();
+# 	exch:`symbol$();
+# 	sym:`symbol$();
+# 	side:`symbol$();
+# 	amount:`float$();
+# 	price:`float$();
+# 	order_id:`long$())""")
 
-q.sync("""quotes:([]
-	utc_datetime:`timestamp$();
-	exch_datetime:`timestamp$();
-	exch:`symbol$();
-	sym:`symbol$();
-	bnum:`int$();
-	bsize:`float$();
-	bid:`float$();
-	ask:`float$();
-	asize:`float$();
-	anum:`int$())""")
+# q.sync("""quotes:([]
+# 	utc_datetime:`timestamp$();
+# 	exch_datetime:`timestamp$();
+# 	exch:`symbol$();
+# 	sym:`symbol$();
+# 	bnum:`int$();
+# 	bsize:`float$();
+# 	bid:`float$();
+# 	ask:`float$();
+# 	asize:`float$();
+# 	anum:`int$())""")
 
 async def trade(feed, pair, id, timestamp, side, amount, price):
 	hwt = str(datetime.utcnow().isoformat()).replace("T","D").replace("-",".")
