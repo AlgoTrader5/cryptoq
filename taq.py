@@ -11,25 +11,27 @@ from cryptofeed.exchanges import Coinbase
 from cryptofeed.defines import TRADES
 
 from datetime import datetime
-from qpython import qconnection
+from kdb_client import KdbClient
 
-# outside q instance open the port: q.exe -p 5002
-# in q instance open the port: \p 5002 
-# to close q instance, use // command
-q = qconnection.QConnection(host='localhost', port=5002, pandas=True)
-q.open()
 
 
 async def trade(feed, pair, id, timestamp, side, amount, price):
 	hwt = str(datetime.utcnow().isoformat()).replace("T","D").replace("-",".")
 	ts = str(datetime.fromtimestamp(timestamp).isoformat()).replace("T","D").replace("-",".")
-	q.sendSync(f"`trades insert (`timestamp${hwt};`timestamp${ts};`{feed};`$\"{pair}\";`{side};{amount};{price};{id})")
+	kdb_client.exequery(f"`trades insert (`timestamp${hwt};`timestamp${ts};`{feed};`$\"{pair}\";`{side};{amount};{price};{id})")
 	
 
 def main():
-	f = FeedHandler()
-	f.add_feed(Coinbase(channels=[TRADES], pairs=['ETH-USD'], callbacks={TRADES: TradeCallback(trade)}))
-	f.run()
+	try:
+		kdb_client = KdbClient(host='localhost', port=5002)
+		kdb_client.open()
+		
+	    	f = FeedHandler()
+	    	f.add_feed(Coinbase(channels=[TRADES], pairs=['ETH-USD'], callbacks={TRADES: TradeCallback(trade)}))
+	    	f.run()
+	finally:
+		kdb_client.close()
+		
 
 
 
