@@ -8,6 +8,17 @@ Requirements:
 
 
 # Getting Started
+configure the subscriptions.yaml config file with exchange, channels and products
+example:
+```yaml
+coinbase:
+  channels:
+    - TRADES
+    - L2_BOOK
+  pairs:
+    - BTC-USD
+    - BTC-USDC
+```
 in command prompt, start q instance specifiying port and schema file
 ```
 q schemas.q -p 5002
