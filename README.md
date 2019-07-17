@@ -7,9 +7,9 @@ make sure qpython is installed
 pip install qpython
 ```
 
-a q instance must be started before streaming market data
+start a q instance and load tables schemas
 ```q
-q.exe -p 5002
+q.exe schemas.q -p 5002
 ```
 
 ```python
