@@ -14,39 +14,17 @@ from datetime import datetime
 from qpython import qconnection
 
 # outside q instance open the port: q.exe -p 5002
-# in q instance open the port: \p 5002
+# in q instance open the port: \p 5002 
+# to close q instance, use // command
 q = qconnection.QConnection(host='localhost', port=5002, pandas=True)
 q.open()
 
-# q.sync("""trades:([]
-# 	utc_datetime:`timestamp$();
-# 	exch_datetime:`timestamp$();
-# 	exch:`symbol$();
-# 	sym:`symbol$();
-# 	side:`symbol$();
-# 	amount:`float$();
-# 	price:`float$();
-# 	order_id:`long$())""")
-
-# q.sync("""quotes:([]
-# 	utc_datetime:`timestamp$();
-# 	exch_datetime:`timestamp$();
-# 	exch:`symbol$();
-# 	sym:`symbol$();
-# 	bnum:`int$();
-# 	bsize:`float$();
-# 	bid:`float$();
-# 	ask:`float$();
-# 	asize:`float$();
-# 	anum:`int$())""")
 
 async def trade(feed, pair, id, timestamp, side, amount, price):
 	hwt = str(datetime.utcnow().isoformat()).replace("T","D").replace("-",".")
 	ts = str(datetime.fromtimestamp(timestamp).isoformat()).replace("T","D").replace("-",".")
-	qStr = f"`trades insert (`timestamp${hwt};`timestamp${ts};`{feed};`$\"{pair}\";`{side};{amount};{price};{id})"
-	print(qStr)
-	q.sendSync(qStr)
-
+	q.sendSync(f"`trades insert (`timestamp${hwt};`timestamp${ts};`{feed};`$\"{pair}\";`{side};{amount};{price};{id})")
+	
 
 def main():
 	f = FeedHandler()
