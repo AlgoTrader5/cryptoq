@@ -25,9 +25,9 @@ def main():
 	try:
 		kdb_client = KdbClient(host='localhost', port=5002)
 		
-	    	f = FeedHandler()
-	    	f.add_feed(Coinbase(channels=[TRADES], pairs=['ETH-USD'], callbacks={TRADES: TradeCallback(trade)}))
-	    	f.run()
+		f = FeedHandler()
+		f.add_feed(Coinbase(channels=[TRADES], pairs=['ETH-USD'], callbacks={TRADES: TradeCallback(trade)}))
+		f.run()
 	finally:
 		kdb_client.close()
 		
