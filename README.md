@@ -19,8 +19,9 @@ coinbase:
     - BTC-USD
     - BTC-USDC
 ```
+
 in command prompt, start q instance specifiying port and schema file
-```
+```shell
 q schemas.q -p 5002
 ```
 
