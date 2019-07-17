@@ -14,7 +14,7 @@ start a q instance, specifiying a port and loading trade and quote table schemas
 make sure q executable path is configured to QHOME environment variable or 
 specify full path
 ```q
-q.exe schemas.q -p 5002
+q schemas.q -p 5002
 ```
 
 start python script to record market data
