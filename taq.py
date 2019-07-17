@@ -19,7 +19,7 @@ async def trade(feed, pair, id, timestamp, side, amount, price):
     hwt = str(datetime.utcnow().isoformat()).replace("T","D").replace("-",".")
     ts = str(datetime.fromtimestamp(timestamp).isoformat()).replace("T","D").replace("-",".")
     amount = float(amount)
-    kdb_client.exequery(f"`trades insert (`timestamp${hwt};`timestamp${ts};`{feed};`$\"{pair}\";`{side};{amount};{price};{id})")
+    kdb_client.exequery(f"`trades insert (`timestamp${hwt};`timestamp${ts};`{feed};`$\"{pair}\";`{side};`float${amount};`float${price};{id})")
 
 async def book(feed, pair, book, timestamp):
     hwt = str(datetime.utcnow().isoformat()).replace("T","D").replace("-",".")
@@ -28,7 +28,7 @@ async def book(feed, pair, book, timestamp):
     bid_size = float(book['bid'][bid_price])
     ask_price = list(book['ask'])[0]
     ask_size = float(book['ask'][ask_price])
-    kdb_client.exequery(f"`quotes insert (`timestamp${hwt};`timestamp${ts};`{feed};`$\"{pair}\";{bid_size};{bid_price};{ask_price};{ask_size})")
+    kdb_client.exequery(f"`quotes insert (`timestamp${hwt};`timestamp${ts};`{feed};`$\"{pair}\";`float${bid_size};`float${bid_price};`float${ask_price};`float${ask_size})")
 
 
 ##### Subscriptions Config #####
