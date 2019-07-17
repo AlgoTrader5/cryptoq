@@ -43,7 +43,9 @@ q.open()
 async def trade(feed, pair, id, timestamp, side, amount, price):
 	hwt = str(datetime.utcnow().isoformat()).replace("T","D").replace("-",".")
 	ts = str(datetime.fromtimestamp(timestamp).isoformat()).replace("T","D").replace("-",".")
-	q.sendSync(f"`trades insert (`timestamp${hwt};`timestamp${ts};`$\"{pair}\";`{side};{amount};{price};`{feed};{id})")
+	qStr = f"`trades insert (`timestamp${hwt};`timestamp${ts};`$\"{pair}\";`{side};{amount};{price};`{feed};{id})"
+	print(qStr)
+	q.sendSync(qStr)
 
 
 def main():
