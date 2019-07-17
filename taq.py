@@ -6,7 +6,7 @@ modified from https://kx.com/blog/combining-high-frequency-cryptocurrency-venue-
 from cryptofeed.callback import TradeCallback, BookCallback
 from cryptofeed import FeedHandler
 from cryptofeed.exchanges import Coinbase
-from cryptofeed.defines import TRADES
+from cryptofeed.defines import TRADES, L2_BOOK
 
 import yaml
 from datetime import datetime
@@ -43,7 +43,7 @@ except IOError:
 def main():
     try:
         f = FeedHandler()
-        f.add_feed(Coinbase(channels=[TRADES], pairs=config['coinbase']['pairs'], callbacks={TRADES: TradeCallback(trade)}))
+        f.add_feed(Coinbase(channels=[TRADES, L2_BOOK], pairs=config['coinbase']['pairs'], callbacks={TRADES: TradeCallback(trade), L2_BOOK: BookCallback(book}))
         f.run()
     finally:
         kdb_client.close()
