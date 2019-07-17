@@ -2,9 +2,9 @@
 stores streaming trade and quote data from cryptofeed to kdb
 
 Requirements:
-newest version of q
-qpython (python library to interact with q)
-cryptofeed (python library to stream cryptocurrency market data) https://github.com/bmoscon/cryptofeed
+* newest version of q
+* qpython (python library to interact with q)
+* cryptofeed (python library to stream cryptocurrency market data) https://github.com/bmoscon/cryptofeed
 
 
 # Getting Started
