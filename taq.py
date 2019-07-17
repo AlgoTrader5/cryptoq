@@ -43,7 +43,7 @@ except IOError:
 def main():
     try:
         f = FeedHandler()
-        f.add_feed(Coinbase(channels=[TRADES, L2_BOOK], pairs=config['coinbase']['pairs'], callbacks={TRADES: TradeCallback(trade), L2_BOOK: BookCallback(book)})
+        f.add_feed(Coinbase(channels=[TRADES, L2_BOOK], pairs=config['coinbase']['pairs'], callbacks={TRADES: TradeCallback(trade), L2_BOOK: BookCallback(book)}))
         f.run()
     finally:
         kdb_client.close()
