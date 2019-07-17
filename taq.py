@@ -24,7 +24,6 @@ async def trade(feed, pair, id, timestamp, side, amount, price):
 def main():
 	try:
 		kdb_client = KdbClient(host='localhost', port=5002)
-		kdb_client.open()
 		
 	    	f = FeedHandler()
 	    	f.add_feed(Coinbase(channels=[TRADES], pairs=['ETH-USD'], callbacks={TRADES: TradeCallback(trade)}))
