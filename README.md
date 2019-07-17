@@ -1,5 +1,5 @@
 # cryptoq
-stores market data in kdb+ streaming from cryptofeed
+stores streaming trade and quote data from cryptofeed to kdb 
 
 make sure qpython is installed
 pip install qpython
