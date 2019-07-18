@@ -21,16 +21,16 @@ coinbase:
 ```
 in command prompt, start q instance specifiying port and schema file
 ```shell
-q schemas.q -p 5002
+q.exe q/schemas.q -p 5002
 ```
 in the q prompt, you can see quotes and trades tables
 ```q
 q)tables[]
 `quotes`trades
 ```
-in command prompt, change into cryptoq directory and run subscribe_zmq.py
+in command prompt, change into cryptoq directory and subscribe to market data and send over tcp
 ```python
-python subscribe_zmq.py (modified version from cryptofeed demo_zmq.py)
+python zmq_client.py (modified version from cryptofeed demo_zmq.py)
 ```
 in command prompt, run scripts separately for trades and quotes
 ```python
