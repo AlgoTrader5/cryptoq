@@ -2,6 +2,7 @@
 stores streaming trade and quote data from cryptofeed to kdb
 
 Requirements:
+* python 3.6 >=
 * 32-bit or 64-bit version of kdb+ https://kx.com/connect-with-us/download/
 * qpython (python library to interact with q)
 * cryptofeed (python library to stream cryptocurrency market data) https://github.com/bmoscon/cryptofeed
