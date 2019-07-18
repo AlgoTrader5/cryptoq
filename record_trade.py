@@ -1,4 +1,4 @@
-from record_kdb import KdbClient
+from kdb_client import KdbClient
 
 
 def main():
