@@ -22,14 +22,18 @@ in command prompt, start q instance specifiying port and schema file
 ```shell
 q schemas.q -p 5002
 ```
-in q, you can see quotes and trades tables
+in the q prompt, you can see quotes and trades tables
 ```q
 q)tables[]
 `quotes`trades
 ```
-in command prompt, run taq.py to record market data
+in command prompt, change into cryptoq directory and run subscribe_zmq.py
 ```python
-python taq.py
+python subscribe_zmq.py
+```
+in command prompt, run record_kdb.py
+```python
+python record_kdb.py
 ```
 in q window, you can see trades data
 ```q
