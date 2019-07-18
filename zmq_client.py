@@ -1,6 +1,5 @@
 import zmq
 import time
-from pprint import pprint
 from multiprocessing import Process
 
 from cryptofeed.backends.zmq import BookZMQ, TradeZMQ
