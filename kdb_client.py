@@ -1,37 +1,71 @@
+import zmq
+from datetime import datetime
 from qpython import qconnection
 from qpython.qtype import QException
 
 
-class KdbClient(object):
-	def __init__(self, host, port):
-		self.q = qconnection.QConnection(host=host, port=port, pandas=True)
+class KdbClient:
+	def __init__(self, zmqhost='127.0.0.1', zmqport=5556, kdbhost='localhost', kdbport=5002):
+		self.kdbhost = kdbhost
+		self.kdbport = kdbport
+		self.zmqhost = zmqhost
+		self.zmqport = zmqport
+		self.addr = f"tcp://{self.zmqhost}:{self.zmqport}"
+		self.ctx = zmq.Context.instance()
+		self.con = self.ctx.socket(zmq.PULL)
+		self.con.connect(self.addr)
+
+		self.q = qconnection.QConnection(host=self.kdbhost, port=self.kdbport, pandas=True)
 		self.q.open()
-		try:
-			print('is connected to %s: %s'% (str(self.q), self.q.is_connected()))
-		except QException as e:
-			print("Error connecting to kdb:\n%s"% e)
+		print(f"is connected to {self.q}: {self.q.is_connected()}")
 
-	
-	def query(self, qStr, param=None):
-		''' used for querying data from server'''
-		try:
-			self.q.query(qconnection.MessageType.SYNC, qStr, param)
-			msg = self.q.receive(data_only=False, raw=False)
-			return msg.data
-		except QException as e:
-			print(f"Error querying from {qStr} server:\n{e}")
+	def run(self):
+		while self.q.is_connected():
+			try:
+				data = self.con.recv_json()
+				if data['type'] == 'book':
+					qStr = self.book_convert(data)
+				elif data['type'] == 'trade':
+					qStr = self.trade_convert(data)
+				else:
+					print(data)
+					return
+				self.exequery(qStr)
+			except Exception as e:
+				print(f'ERROR QUERY: {qStr} {e}')
 
-	
+	def stop(self):
+		self.q.close()
+
+	def trade_convert(self, data):
+		hwt = str(datetime.utcnow().isoformat()).replace("T","D").replace("-",".")
+		ts = str(datetime.fromtimestamp(data['data']['timestamp']).isoformat()).replace("T","D").replace("-",".")
+		exch = data['data']['feed']
+		pair = data['data']['pair']
+		side = data['data']['side']
+		price = data['data']['price']
+		amount = data['data']['amount']
+		order_id = data['data']['id']
+		return f"`trades insert (`timestamp${hwt};`timestamp${ts};" \
+				f"`{exch};`$\"{pair}\";`{side};`float${amount};" \
+				f"`float${price};`int${order_id})"
+
+	def book_convert(self, data):
+		hwt = str(datetime.utcnow().isoformat()).replace("T","D").replace("-",".")
+		ts = str(datetime.fromtimestamp(data['data']['timestamp']).isoformat()).replace("T","D").replace("-",".")
+		bid_price = list(data['data']['bid'])[0]
+		bid_size = float(data['data']['bid'][bid_price])
+		ask_price = list(data['data']['ask'])[0]
+		ask_size = float(data['data']['ask'][ask_price])
+		return f"`quotes insert (`timestamp${hwt};`timestamp${ts};" \
+				f"`{data['feed']};`$\"{data['pair']}\";`float${bid_size};" \
+				f"`float${bid_price};`float${ask_price};`float${ask_size})"
+
 	def exequery(self, qStr, param=None):
 		''' used for insert/delete queries against server'''
 		try:
 			self.q.sendSync(qStr, param)
 		except QException as e:
-			print(f"Error executing against {qStr} server:\n{e}")
+			print(f"Error executing query {qStr} against server. {e}")
 
-	def close(self):
-		print(f"closing connection to {self.q}")
-		try:
-			self.q.close()
-		except QException as e:
-			print(f"Error closing kdb:\n{e}")
+
