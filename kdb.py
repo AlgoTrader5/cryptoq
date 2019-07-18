@@ -4,7 +4,7 @@ from qpython import qconnection
 from qpython.qtype import QException
 
 
-class KdbQuoteRecorder:
+class KdbClient:
     def __init__(self, zmqhost='127.0.0.1', zmqport=5556, kdbhost='localhost', kdbport=5002):
         self.kdbhost = kdbhost
         self.kdbport = kdbport
@@ -23,7 +23,13 @@ class KdbQuoteRecorder:
         while self.q.is_connected():
             try:
                 data = self.con.recv_json()
-                qStr = self.data_convert(data)
+                print(data)
+                if data['type'] == 'book':
+                    qStr = self.book_convert(data)
+                elif data['type'] == 'trade':
+                    qStr = self.trade_convert(data)
+                else:
+                    return
                 self.exequery(qStr)
             except Exception as e:
                 print(f'ERROR QUERY: {qStr} {e}')
@@ -31,7 +37,20 @@ class KdbQuoteRecorder:
     def stop(self):
         self.q.close()
 
-    def data_convert(self, data):
+    def trade_convert(self, data):
+        hwt = str(datetime.utcnow().isoformat()).replace("T","D").replace("-",".")
+        ts = str(datetime.fromtimestamp(data['data']['timestamp']).isoformat()).replace("T","D").replace("-",".")
+        exch = data['data']['feed']
+        pair = data['data']['pair']
+        side = data['data']['side']
+        price = data['data']['price']
+        amount = data['data']['amount']
+        order_id = data['data']['id']
+        return f"`trades insert (`timestamp${hwt};`timestamp${ts};" \
+                f"`{exch};`$\"{pair}\";`{side};`float${amount};" \
+                f"`float${price};`int${order_id})"
+
+    def book_convert(self, data):
         hwt = str(datetime.utcnow().isoformat()).replace("T","D").replace("-",".")
         ts = str(datetime.fromtimestamp(data['data']['timestamp']).isoformat()).replace("T","D").replace("-",".")
         bid_price = list(data['data']['bid'])[0]
@@ -39,8 +58,8 @@ class KdbQuoteRecorder:
         ask_price = list(data['data']['ask'])[0]
         ask_size = float(data['data']['ask'][ask_price])
         return f"`quotes insert (`timestamp${hwt};`timestamp${ts};" \
-                f"`{data['feed']};`$\"{data['pair']}\";`float${bid_size};`float${bid_price};" \
-                f"`float${ask_price};`float${ask_size})"
+                f"`{data['feed']};`$\"{data['pair']}\";`float${bid_size};" \
+                f"`float${bid_price};`float${ask_price};`float${ask_size})"
 
     def exequery(self, qStr, param=None):
         ''' used for insert/delete queries against server'''
@@ -50,12 +69,9 @@ class KdbQuoteRecorder:
             print(f"Error executing query {qStr} against server. {e}")
 
 def main():
-    try:
-        kdb = KdbQuoteRecorder(zmqhost='127.0.0.1', zmqport=5556, kdbhost='localhost', kdbport=5002)
-        kdb.run()
-    finally:
-        print('stop')
-        kdb.stop()
+    kdb_client = KdbClient(zmqhost='127.0.0.1', zmqport=5555, kdbhost='localhost', kdbport=5002)
+    kdb_client.run()
+
 
 if __name__ == '__main__':
     main()
