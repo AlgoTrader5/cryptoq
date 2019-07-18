@@ -29,11 +29,26 @@ q)tables[]
 ```
 in command prompt, change into cryptoq directory and run subscribe_zmq.py
 ```python
-python subscribe_zmq.py
+python subscribe_zmq.py (modified version from cryptofeed demo_zmq.py)
 ```
-in command prompt, run record_kdb.py
+in command prompt, run scripts separately for trades and quotes
 ```python
-python record_kdb.py
+python record_trade.py
+def main():
+    trade_kdb = KdbClient(zmqhost='127.0.0.1', zmqport=5555, kdbhost='localhost', kdbport=5002)
+    trade_kdb.run()
+
+if __name__ == '__main__':
+    main()
+    
+    
+python record_book.py
+def main():
+    book_kdb = KdbClient(zmqhost='127.0.0.1', zmqport=5556, kdbhost='localhost', kdbport=5002)
+    book_kdb.run()
+
+if __name__ == '__main__':
+    main()
 ```
 in q window, you can see trades data
 ```q
