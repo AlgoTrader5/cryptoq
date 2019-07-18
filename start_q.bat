@@ -1,1 +1,1 @@
-start q.exe schemas.q -p 5002
+start q.exe q/schemas.q -p 5002
