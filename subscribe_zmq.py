@@ -44,7 +44,7 @@ def read_cfg(fn):
 
 
 def main():
-        subscriptions = read_cfg(fileName="subscriptions.yaml")
+        subscriptions = read_cfg("subscriptions.yaml")
         coinbase_tickers = subscriptions['coinbase']['pairs']
 
         try:
@@ -62,4 +62,5 @@ def main():
             p1.terminate()
             p2.terminate()
             
-
+if __name__ in "__main__":
+    main()
