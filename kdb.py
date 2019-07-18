@@ -69,8 +69,11 @@ class KdbClient:
             print(f"Error executing query {qStr} against server. {e}")
 
 def main():
-    kdb_client = KdbClient(zmqhost='127.0.0.1', zmqport=5555, kdbhost='localhost', kdbport=5002)
-    kdb_client.run()
+    trade_kdb = KdbClient(zmqhost='127.0.0.1', zmqport=5555, kdbhost='localhost', kdbport=5002)
+#     book_kdb = KdbClient(zmqhost='127.0.0.1', zmqport=5556, kdbhost='localhost', kdbport=5002)
+    
+    trade_kdb.run()
+#     book_kdb.run()
 
 
 if __name__ == '__main__':
