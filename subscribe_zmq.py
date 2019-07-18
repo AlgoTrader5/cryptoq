@@ -44,7 +44,7 @@ def read_cfg(fn):
 
 
 def main():
-        subscriptions = read_cfg("subscriptions.yaml")
+        subscriptions = read_cfg("conf//subscriptions.yaml")
         coinbase_tickers = subscriptions['coinbase']['pairs']
 
         try:
