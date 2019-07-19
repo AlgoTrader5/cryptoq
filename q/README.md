@@ -1,5 +1,5 @@
 ```q
-getCandlestick[`$"BTC-USD";`$"COINBASE";1]
+q)getCandlestick[`$"BTC-USD";`$"COINBASE";1]
 
 minute| sym     exch     num volume    o        h        l        c        vwap     buyVol    sellVol    buyNum sellNum
 ------| ---------------------------------------------------------------------------------------------------------------
