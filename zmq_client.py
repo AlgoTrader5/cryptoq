@@ -1,5 +1,6 @@
 import zmq
 import time
+import argparse
 from datetime import datetime
 from multiprocessing import Process
 
@@ -11,7 +12,13 @@ from cryptofeed import FeedHandler
 from cryptofeed.exchanges import Coinbase
 from cryptofeed.defines import TRADES, L2_BOOK
 
-q = qconnection.QConnection(host='localhost', port=5002, pandas=True)
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-p", "--port", help='QConnection port')
+args = parser.parse_args()
+
+
+q = qconnection.QConnection(host='localhost', port=int(args.port), pandas=True)
 q.open()
 print(f"is connected to {q}: {q.is_connected()}")
 
