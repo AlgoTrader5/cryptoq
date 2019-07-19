@@ -30,7 +30,7 @@ q)tables[]
 ```
 in command prompt, change into cryptoq directory and subscribe to market data and send over tcp
 ```python
-python zmq_client.py (modified version from cryptofeed demo_zmq.py)
+python zmq_client.py  # modified version from cryptofeed demo_zmq.py
 ```
 in command prompt, run scripts separately for trades and quotes
 ```python
