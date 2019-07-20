@@ -24,7 +24,7 @@ q = qconnection.QConnection(host='localhost', port=int(args.port), pandas=True)
 q.open()
 
 print(q)
-print(f"IPC version: {q.protocol_version}. Is connected: {q.is_connected()}"
+print(f"IPC version: {q.protocol_version}. Is connected: {q.is_connected()}")
 
 
 def book_receiver(port):
