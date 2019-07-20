@@ -18,9 +18,13 @@ parser.add_argument("-p", "--port", help='QConnection port')
 args = parser.parse_args()
 
 
+# create connection object
 q = qconnection.QConnection(host='localhost', port=int(args.port), pandas=True)
+# initialize connection
 q.open()
-print(f"is connected to {q}: {q.is_connected()}")
+
+print(q)
+print(f"IPC version: {q.protocol_version}. Is connected: {q.is_connected()}"
 
 
 def book_receiver(port):
