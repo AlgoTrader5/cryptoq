@@ -1,7 +1,6 @@
 import zmq
 import time
 import argparse
-from datetime import datetime
 from multiprocessing import Process
 
 from qpython import qconnection
@@ -24,8 +23,6 @@ args = parser.parse_args()
 q = qconnection.QConnection(host='localhost', port=int(args.port), pandas=True)
 # initialize connection
 q.open()
-
-print(q)
 print(f"IPC version: {q.protocol_version}. Is connected: {q.is_connected()}")
 
 
@@ -83,7 +80,13 @@ def main():
 
         finally:
             p1.terminate()
-            p2.terminate()    
+            p2.terminate()
+            
+            # save trades and quotes tables to disk
+            data_path = "c:/repos/cryptoq/data"
+            q.sendSync(f"`:{data_path}/trades set trades")
+            q.sendSync(f"`:{data_path}/quotes set quotes")
+            q.close()
             
 if __name__ in "__main__":
     main()
