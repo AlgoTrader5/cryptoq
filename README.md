@@ -24,10 +24,12 @@ in command prompt, start q instance specifiying port and schema file
 ```shell
 q.exe q/schemas.q -p 5002
 ```
-in the q prompt, you can see quotes and trades tables
+in the q prompt, you can see tables and functions
 ```q
 q)tables[]
 `quotes`trades
+q)\f
+`s#`getCandlestick`getLastTrade
 ```
 in command prompt, connect to kdb port and subscribe to market data and insert into kdb 
 ```python
