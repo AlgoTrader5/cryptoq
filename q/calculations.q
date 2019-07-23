@@ -13,3 +13,12 @@ getCandlestick:{[Sym;Exch;interval]
         sellNum: count amount where side=`sell
     by interval xbar utc_datetime.minute from trades where sym=Sym,exch=Exch;
     t};
+    
+getLastTrade:{[]
+    select last exch,
+        last sym,
+        last price, 
+        last amount, 
+        last side
+    by sym from trades
+    };
