@@ -87,3 +87,23 @@ kraken:
     - DASH-BTC
     - MLN-BTC
     - MLN-ETH
+poloniex:
+  pairs:
+    - BTC-USDC
+    - ETH-USDC
+    - LTC-USDC
+    - LTC-XMR
+    - XRP-USDC
+    - ZEC-USDC
+    - ZEC-ETH
+    - ZEC-BTC
+    - ZEC-XMR
+    - ZRX-ETH
+    - ZRX-BTC
+    - EOS-USDC
+    - XMR-USDC
+    - XMR-BTC
+    - ETC-USDC
+    - ETC-ETH
+    - ETH-BTC
+    - BAT-ETH
