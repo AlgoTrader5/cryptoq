@@ -1,6 +1,6 @@
 import yaml
+import json
 from datetime import datetime
-
 
 def read_cfg(fn):    
     print(f'reading config {fn}')
@@ -14,20 +14,27 @@ def read_cfg(fn):
     return cfg
 
 def trade_convert(data):
+    data = data.split(" ", 1)[1]
+    data = json.loads(data)
     hwt = str(datetime.utcnow().isoformat()).replace("T","D").replace("-",".")
-    ts = str(datetime.fromtimestamp(data['data']['timestamp']).isoformat()).replace("T","D").replace("-",".")
-    exch = data['data']['feed']
-    pair = data['data']['pair']
-    side = data['data']['side']
-    price = data['data']['price']
-    amount = data['data']['amount']
-    order_id = data['data']['id']
+    ts = str(datetime.fromtimestamp(data['timestamp']).isoformat()).replace("T","D").replace("-",".")
+    exch = data['feed']
+    pair = data['pair']
+    side = data['side']
+    price = data['price']
+    amount = data['amount']
+    if data['id']:
+        order_id = data['id'] 
+    else:
+        order_id = 0
     return f"`trades insert (`timestamp${hwt};`timestamp${ts};" \
             f"`{exch};`$\"{pair}\";`{side};`float${amount};" \
             f"`float${price};`int${order_id})"
 
 
 def book_convert(data):
+    data = data.split(" ", 1)[1]
+    data = json.loads(data)
     hwt = str(datetime.utcnow().isoformat()).replace("T","D").replace("-",".")
     ts = str(datetime.fromtimestamp(data['data']['timestamp']).isoformat()).replace("T","D").replace("-",".")
     bid_price = list(data['data']['bid'])[0]
