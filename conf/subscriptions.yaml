@@ -90,9 +90,21 @@ kraken:
 poloniex:
   pairs:
     - BTC-USDC
+    - BAT-ETH
+    - DASH-USDC
+    - DASH-BTC
+    - DASH-XMR
+    - EOS-USDC
+    - EOS-BTC
+    - EOS-ETH
+    - ETC-USDC
+    - ETC-ETH
     - ETH-USDC
+    - ETH-BTC
     - LTC-USDC
     - LTC-XMR
+    - XMR-USDC
+    - XMR-BTC
     - XRP-USDC
     - ZEC-USDC
     - ZEC-ETH
@@ -100,10 +112,3 @@ poloniex:
     - ZEC-XMR
     - ZRX-ETH
     - ZRX-BTC
-    - EOS-USDC
-    - XMR-USDC
-    - XMR-BTC
-    - ETC-USDC
-    - ETC-ETH
-    - ETH-BTC
-    - BAT-ETH
