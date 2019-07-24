@@ -1,7 +1,4 @@
 coinbase:
-  channels:
-    - TRADES
-    - L2_BOOK
   pairs:
     - BTC-USD
     - BTC-USDC
@@ -30,10 +27,35 @@ coinbase:
     - LINK-ETH
     - ZEC-USDC
     - ZEC-BTC
+binance:
+  pairs:
+    - BTC-USDC
+    - BAT-ETH
+    - BAT-BNB
+    - BNB-BTC
+    - BNB-ETH
+    - BNB-USDC
+    - EOS-USDC
+    - EOS-BTC
+    - EOS-ETH
+    - EOS-BNB
+    - ETC-BNB
+    - ETH-BTC
+    - ETH-USDC
+    - LTC-BTC
+    - LTC-BNB
+    - LTC-USDC
+    - LINK-BTC
+    - LINK-ETH
+    - LINK-USDC
+    - TRX-USDC
+    - TRX-BTC
+    - TRX-BNB
+    - TRX-XRP
+    - XRP-USDC
+    - XRP-BTC
+    - XRP-BNB
 kraken:
-  channels:
-    - TRADES
-    - L2_BOOK
   pairs:
     - BTC-USD
     - ETH-USD
