@@ -37,4 +37,31 @@ kraken:
   pairs:
     - BTC-USD
     - ETH-USD
+    - ETH-BTC
     - LTC-USD
+    - LTC-BTC
+    - XRP-USD
+    - XRP-BTC
+    - EOS-USD
+    - EOS-BTC
+    - EOS-ETH
+    - XLM-BTC
+    - XLM-USD
+    - ETC-USD
+    - ETC-BTC
+    - ETC-ETH
+    - ZEC-USD
+    - ZEC-BTC
+    - REP-USD
+    - REP-BTC
+    - REP-ETH
+    - QTUM-USD
+    - QTUM-BTC
+    - QTUM-ETH
+    - GNO-USD
+    - GNO-ETH
+    - GNO-BTC
+    - DASH-USD
+    - DASH-BTC
+    - MLN-BTC
+    - MLN-ETH
