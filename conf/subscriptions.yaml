@@ -30,3 +30,11 @@ coinbase:
     - LINK-ETH
     - ZEC-USDC
     - ZEC-BTC
+kraken:
+  channels:
+    - TRADES
+    - L2_BOOK
+  pairs:
+    - BTC-USD
+    - ETH-USD
+    - LTC-USD
