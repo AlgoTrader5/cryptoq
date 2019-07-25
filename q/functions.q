@@ -1,3 +1,6 @@
+// function to print log info
+out:{-1(string .z.z)," ",x}
+
 getCandlestick:{[Sym;Exch;interval]
     t:select first sym,first exch,
         o:first price,
