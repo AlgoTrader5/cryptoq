@@ -1,2 +1,2 @@
 \l q\schemas.q
-\l q\calculations.q
+\l q\functions.q
