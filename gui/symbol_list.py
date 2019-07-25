@@ -7,7 +7,7 @@ class SymbolList(QtWidgets.QTableWidget):
     select_exchange = QtCore.pyqtSignal(str)
 
     def __init__(self, clients, parent=None):
-        super(ContractsList, self).__init__(parent)
+        super(SymbolList, self).__init__(parent)
         self.clients = clients
         self.init_table()
         self.select_exchange.connect(self.change_symbols)
