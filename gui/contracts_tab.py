@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from PyQt5 import QtWidgets, QtGui
 from subscriptions_list import SubscriptionsList
-from contracts_list import ContractsList
+from symbol_list import SymbolList
 
 class ContractsTab(QtWidgets.QWidget):
 	''' Window contains 3 widgets:
@@ -21,7 +21,7 @@ class ContractsTab(QtWidgets.QWidget):
 
 	def __init__(self, clients, subscriptions, parent=None):
 		super(ContractsTab, self).__init__(parent)
-		self.contracts_list = ContractsList(clients)
+		self.symbol_list = SymbolList(clients)
 		self.subscriptions_list = SubscriptionsList(subscriptions)
 		self.add_btn = QtWidgets.QPushButton("add")
 		
@@ -29,7 +29,7 @@ class ContractsTab(QtWidgets.QWidget):
 		
 		layout = QtWidgets.QHBoxLayout()
 		layout.addWidget(self.create_box_group())
-		layout.addWidget(self.contracts_list)
+		layout.addWidget(self.symbol_list)
 
 		layout.addWidget(self.add_btn)
 		layout.addWidget(self.subscriptions_list)
@@ -64,7 +64,7 @@ class ContractsTab(QtWidgets.QWidget):
 
 	def btnstate(self,b):
 		if b.isChecked():
-			self.contracts_list.select_exchange.emit(b.text())
+			self.symbol_list.select_exchange.emit(b.text())
 
 
 
