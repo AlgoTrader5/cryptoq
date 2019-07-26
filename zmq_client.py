@@ -26,18 +26,21 @@ q = qconnection.QConnection(host='localhost', port=int(args.port), pandas=True)
 q.open()
 
 
-
 def receiver(port):
     addr = f'tcp://127.0.0.1:{port}'
     print(f'receiver address: {addr}')
     ctx = zmq.Context.instance()
     s = ctx.socket(zmq.SUB)
-    s.setsockopt(zmq.SUBSCRIBE, b'book')
-    s.setsockopt(zmq.SUBSCRIBE, b'trades')
-
+    s.setsockopt(zmq.SUBSCRIBE, b'')
     s.bind(addr)
+    
+    pub = ctx.socket(zmq.PUB)
+    pub.connect(f'tcp://127.0.0.1:{port+1}')
+    
     while True:
         data = s.recv_string()
+        pub.send_string(data)       # send data to gui
+
         if data[0] == "b":
             qStr = book_convert(data)
         else:
