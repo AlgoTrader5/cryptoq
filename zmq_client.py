@@ -27,19 +27,13 @@ q.open()
 
 
 def receiver(port):
-    addr = f'tcp://127.0.0.1:{port}'
-    print(f'receiver address: {addr}')
     ctx = zmq.Context.instance()
     s = ctx.socket(zmq.SUB)
     s.setsockopt(zmq.SUBSCRIBE, b'')
-    s.bind(addr)
-    
-    pub = ctx.socket(zmq.PUB)
-    pub.connect(f'tcp://127.0.0.1:{port+1}')
-    
+    s.bind(f'tcp://127.0.0.1:{port}')
+
     while True:
         data = s.recv_string()
-        pub.send_string(data)       # send data to gui
 
         if data[0] == "b":
             qStr = book_convert(data)
@@ -53,10 +47,10 @@ def receiver(port):
 
 def main():
     subscriptions = read_cfg("conf//subscriptions.yaml")
-    coinbase_tickers = subscriptions['coinbase']['pairs']
-    kraken_tickers = subscriptions['kraken']['pairs']
-    binance_tickers = subscriptions['binance']['pairs']
-    poloniex_tickers = subscriptions['poloniex']['pairs']
+    coinbase_tickers = subscriptions['coinbase']
+    kraken_tickers = subscriptions['kraken']
+    binance_tickers = subscriptions['binance']
+    poloniex_tickers = subscriptions['poloniex']
 
     print(f"IPC version: {q.protocol_version}. Is connected: {q.is_connected()}")
 
@@ -70,29 +64,29 @@ def main():
             channels=[L2_BOOK, TRADES], 
             pairs=coinbase_tickers, 
             callbacks={
-                TRADES: TradeZMQ(port=5555), 
-                L2_BOOK: BookZMQ(depth=1, port=5555)}))
+                TRADES: [TradeZMQ(port=5555), TradeZMQ(port=5556)],
+                L2_BOOK: [BookZMQ(depth=1, port=5555), BookZMQ(depth=1, port=5556)]}))
         
         f.add_feed(Kraken(
             channels=[L2_BOOK, TRADES], 
             pairs=kraken_tickers, 
             callbacks={
-                TRADES: TradeZMQ(port=5555), 
-                L2_BOOK: BookZMQ(depth=1, port=5555)}))
+                TRADES: [TradeZMQ(port=5555), TradeZMQ(port=5556)],
+                L2_BOOK: [BookZMQ(depth=1, port=5555), BookZMQ(depth=1, port=5556)]}))
         
         f.add_feed(Binance(
             channels=[L2_BOOK, TRADES], 
             pairs=binance_tickers, 
             callbacks={
-                TRADES: TradeZMQ(port=5555), 
-                L2_BOOK: BookZMQ(depth=1, port=5555)}))
+                TRADES: [TradeZMQ(port=5555), TradeZMQ(port=5556)],
+                L2_BOOK: [BookZMQ(depth=1, port=5555), BookZMQ(depth=1, port=5556)]}))
 
         f.add_feed(Poloniex(
             channels=[L2_BOOK, TRADES], 
             pairs=poloniex_tickers, 
             callbacks={
-                TRADES: TradeZMQ(port=5555), 
-                L2_BOOK: BookZMQ(depth=1, port=5555)}))
+                TRADES: [TradeZMQ(port=5555), TradeZMQ(port=5556)],
+                L2_BOOK: [BookZMQ(depth=1, port=5555), BookZMQ(depth=1, port=5556)]}))
 
         f.run()
 
@@ -100,7 +94,7 @@ def main():
         p.terminate()
         
         # save trades and quotes tables to disk
-        data_path = "c:/repos/cryptoq/data"
+        data_path = "d:/repos/cryptoq/data"
         q.sendSync(f"`:{data_path}/trades set trades")
         q.sendSync(f"`:{data_path}/quotes set quotes")
         q.close()
