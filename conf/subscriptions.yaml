@@ -1,5 +1,4 @@
 coinbase:
-  pairs:
     - BTC-USD
     - BTC-USDC
     - ETH-USD
@@ -28,7 +27,6 @@ coinbase:
     - ZEC-USDC
     - ZEC-BTC
 binance:
-  pairs:
     - BTC-USDC
     - BAT-ETH
     - BAT-BNB
@@ -56,7 +54,6 @@ binance:
     - XRP-BTC
     - XRP-BNB
 kraken:
-  pairs:
     - BTC-USD
     - ETH-USD
     - ETH-BTC
@@ -88,7 +85,6 @@ kraken:
     - MLN-BTC
     - MLN-ETH
 poloniex:
-  pairs:
     - BTC-USDC
     - BAT-ETH
     - DASH-USDC
