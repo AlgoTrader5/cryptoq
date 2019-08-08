@@ -13,12 +13,12 @@ configure the conf/subscriptions.yaml config file with exchange, channels and pr
 example:
 ```yaml
 coinbase:
-  channels:
-    - TRADES
-    - L2_BOOK
   pairs:
     - BTC-USD
     - BTC-USDC
+kraken:
+  pairs:
+    - BTC-USD
 ```
 in command prompt, start q instance specifiying port and schema file
 ```shell
