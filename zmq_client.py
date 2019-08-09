@@ -17,11 +17,14 @@ from utils import read_cfg, trade_convert, book_convert
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-p", "--port", help='QConnection port')
+parser.add_argument("-d", "--depth", help='Order book depth')
 args = parser.parse_args()
 
+PORT = int(args.port)
+DEPTH = int(args.depth)
 
 # create connection object
-q = qconnection.QConnection(host='localhost', port=int(args.port), pandas=True)
+q = qconnection.QConnection(host='localhost', port=PORT, pandas=True)
 # initialize connection
 q.open()
 
@@ -65,28 +68,28 @@ def main():
             pairs=coinbase_tickers, 
             callbacks={
                 TRADES: [TradeZMQ(port=5555), TradeZMQ(port=5556)],
-                L2_BOOK: [BookZMQ(depth=1, port=5555), BookZMQ(depth=1, port=5556)]}))
+                L2_BOOK: [BookZMQ(depth=DEPTH, port=5555), BookZMQ(depth=DEPTH, port=5556)]}))
         
         f.add_feed(Kraken(
             channels=[L2_BOOK, TRADES], 
             pairs=kraken_tickers, 
             callbacks={
                 TRADES: [TradeZMQ(port=5555), TradeZMQ(port=5556)],
-                L2_BOOK: [BookZMQ(depth=1, port=5555), BookZMQ(depth=1, port=5556)]}))
+                L2_BOOK: [BookZMQ(depth=DEPTH, port=5555), BookZMQ(depth=DEPTH, port=5556)]}))
         
         f.add_feed(Binance(
             channels=[L2_BOOK, TRADES], 
             pairs=binance_tickers, 
             callbacks={
                 TRADES: [TradeZMQ(port=5555), TradeZMQ(port=5556)],
-                L2_BOOK: [BookZMQ(depth=1, port=5555), BookZMQ(depth=1, port=5556)]}))
+                L2_BOOK: [BookZMQ(depth=DEPTH, port=5555), BookZMQ(depth=DEPTH, port=5556)]}))
 
         f.add_feed(Poloniex(
             channels=[L2_BOOK, TRADES], 
             pairs=poloniex_tickers, 
             callbacks={
                 TRADES: [TradeZMQ(port=5555), TradeZMQ(port=5556)],
-                L2_BOOK: [BookZMQ(depth=1, port=5555), BookZMQ(depth=1, port=5556)]}))
+                L2_BOOK: [BookZMQ(depth=DEPTH, port=5555), BookZMQ(depth=DEPTH, port=5556)]}))
 
         f.run()
 
