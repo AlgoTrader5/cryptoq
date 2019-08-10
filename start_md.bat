@@ -1,3 +1,3 @@
 d:
 cd D:\repos\cryptoq
-python zmq_client.py -p 5002 -d 1
+python -m bin.cryptoq --port 5002 --depth 1 --config D:\repos\conf\subscriptions.yaml
