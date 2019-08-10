@@ -32,7 +32,7 @@ q)\f
 ```
 in command prompt, change to cryptoq directory and start script 
 ```shell
-python -m bin.cryptoq --port 5002 --depth 1 --config D:\repos\cryptoq\conf\subscriptions.yaml
+python -m bin.cryptoq --port 5002 --depth 1 --config D:/repos/cryptoq/conf/subscriptions.yaml
 ```
 
 in q window, you can see trades and quotes data
