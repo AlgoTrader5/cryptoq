@@ -32,7 +32,7 @@ def trade_convert(data):
             f"`float${price};`int${order_id})"
 
 
-def book_convert(data):
+def book_convert(data, depth):
     data = data.split(" ", 1)[1]
     data = json.loads(data)
     hwt = str(datetime.utcnow().isoformat()).replace("T","D").replace("-",".")
