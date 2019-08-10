@@ -31,7 +31,7 @@ q)\f
 `s#`getCandlestick`getLastTrade
 ```
 in command prompt, change to cryptoq directory and start script 
-```python
+```shell
 python -m bin.cryptoq --port 5002 --depth 1 --config D:\repos\cryptoq\conf\subscriptions.yaml
 ```
 
