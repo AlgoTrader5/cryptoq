@@ -30,9 +30,9 @@ q)tables[]
 q)\f
 `s#`getCandlestick`getLastTrade
 ```
-in command prompt, connect to kdb port and subscribe to market data and insert into kdb 
+in command prompt, change to cryptoq directory and start script 
 ```python
-python zmq_client.py -p 5002 -d 1   # modified version from cryptofeed demo_zmq.py
+python -m bin.cryptoq --port 5002 --depth 1 --config D:\repos\cryptoq\conf\subscriptions.yaml
 ```
 
 in q window, you can see trades and quotes data
