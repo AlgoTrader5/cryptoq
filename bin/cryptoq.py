@@ -72,21 +72,21 @@ def main():
 			pairs=subscriptions['kraken'], 
 			callbacks={
 				TRADES: [TradeZMQ(port=5555), TradeZMQ(port=5556)],
-				L2_BOOK: [BookZMQ(depth=1, port=5555), BookZMQ(depth=1, port=5556)]}))
+				L2_BOOK: [BookZMQ(depth=DEPTH, port=5555), BookZMQ(depth=DEPTH, port=5556)]}))
 		
 		f.add_feed(Binance(
 			channels=[L2_BOOK, TRADES], 
 			pairs=subscriptions['binance'], 
 			callbacks={
 				TRADES: [TradeZMQ(port=5555), TradeZMQ(port=5556)],
-				L2_BOOK: [BookZMQ(depth=1, port=5555), BookZMQ(depth=1, port=5556)]}))
+				L2_BOOK: [BookZMQ(depth=DEPTH, port=5555), BookZMQ(depth=DEPTH, port=5556)]}))
 
 		f.add_feed(Poloniex(
 			channels=[L2_BOOK, TRADES], 
 			pairs=subscriptions['poloniex'], 
 			callbacks={
 				TRADES: [TradeZMQ(port=5555), TradeZMQ(port=5556)],
-				L2_BOOK: [BookZMQ(depth=1, port=5555), BookZMQ(depth=1, port=5556)]}))
+				L2_BOOK: [BookZMQ(depth=DEPTH, port=5555), BookZMQ(depth=DEPTH port=5556)]}))
 
 		f.run()
 
