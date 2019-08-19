@@ -86,7 +86,7 @@ def main():
 			pairs=subscriptions['poloniex'], 
 			callbacks={
 				TRADES: [TradeZMQ(port=5555), TradeZMQ(port=5556)],
-				L2_BOOK: [BookZMQ(depth=DEPTH, port=5555), BookZMQ(depth=DEPTH port=5556)]}))
+				L2_BOOK: [BookZMQ(depth=DEPTH, port=5555), BookZMQ(depth=DEPTH, port=5556)]}))
 
 		f.run()
 
