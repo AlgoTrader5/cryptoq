@@ -24,6 +24,8 @@ coinbase:
     - ETH-DAI
     - LINK-USD
     - LINK-ETH
+    - XTZ-USD
+    - XTZ-BTC
     - ZEC-USDC
     - ZEC-BTC
 binance:
@@ -46,10 +48,6 @@ binance:
     - LINK-BTC
     - LINK-ETH
     - LINK-USDC
-    - TRX-USDC
-    - TRX-BTC
-    - TRX-BNB
-    - TRX-XRP
     - XRP-USDC
     - XRP-BTC
     - XRP-BNB
@@ -74,22 +72,9 @@ kraken:
     - REP-USD
     - REP-BTC
     - REP-ETH
-    - QTUM-USD
-    - QTUM-BTC
-    - QTUM-ETH
-    - GNO-USD
-    - GNO-ETH
-    - GNO-BTC
-    - DASH-USD
-    - DASH-BTC
-    - MLN-BTC
-    - MLN-ETH
 poloniex:
     - BTC-USDC
     - BAT-ETH
-    - DASH-USDC
-    - DASH-BTC
-    - DASH-XMR
     - EOS-USDC
     - EOS-BTC
     - EOS-ETH
@@ -98,13 +83,9 @@ poloniex:
     - ETH-USDC
     - ETH-BTC
     - LTC-USDC
-    - LTC-XMR
-    - XMR-USDC
-    - XMR-BTC
     - XRP-USDC
     - ZEC-USDC
     - ZEC-ETH
     - ZEC-BTC
-    - ZEC-XMR
     - ZRX-ETH
     - ZRX-BTC
