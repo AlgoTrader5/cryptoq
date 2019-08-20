@@ -38,9 +38,9 @@ def book_convert(data, depth):
     hwt = str(datetime.utcnow().isoformat()).replace("T","D").replace("-",".")
     ts = str(datetime.fromtimestamp(data['data']['timestamp']).isoformat()).replace("T","D").replace("-",".")
     bid_price = list(data['data']['bid'])[0]
-    bid_size = data['data']['bid'][bid_price]
+    bid_size = float(data['data']['bid'][bid_price])
     ask_price = list(data['data']['ask'])[0]
-    ask_size = data['data']['ask'][ask_price]
+    ask_size = float(data['data']['ask'][ask_price])
     return f"`quotes insert (`timestamp${hwt};`timestamp${ts};" \
             f"`{data['feed']};`$\"{data['pair']}\";`float${bid_size};" \
             f"`float${bid_price};`float${ask_price};`float${ask_size})"
