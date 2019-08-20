@@ -60,7 +60,7 @@ def receiver(port):
 
 
 def main():
-	print(f'port: {PORT}\nkdb port: {KDBPORT}\ngui port: {GUIPORT}\ndepth: {DEPTH}\nconfig: {CONFIG}\n')
+	print(f'q connection port: {PORT}\nkdb (zmq) port: {KDBPORT}\ngui (zmq) port: {GUIPORT}\ndepth: {DEPTH}\nconfig: {CONFIG}')
 	print(f"IPC version: {q.protocol_version}. Is connected: {q.is_connected()}")
 	
 	subscriptions = read_cfg(CONFIG)
