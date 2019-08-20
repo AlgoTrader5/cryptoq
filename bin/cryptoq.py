@@ -36,9 +36,6 @@ q = qconnection.QConnection(host='localhost', port=PORT, pandas=True)
 # initialize connection
 q.open()
 
-async def ohlcv(data=None):
-	print(data)
-
 
 def receiver(port):
 	ctx = zmq.Context.instance()
