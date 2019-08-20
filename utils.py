@@ -3,7 +3,6 @@ import json
 from datetime import datetime
 
 def read_cfg(fn):    
-    print(f'reading config {fn}')
     cfg = None
     with open(fn, 'r') as f:
         try:
