@@ -16,7 +16,6 @@ from cryptofeed.defines import TRADES, L2_BOOK
 from utils import read_cfg, trade_convert, book_convert
 
 
-# def main():
 parser = argparse.ArgumentParser()
 parser.add_argument("-p", "--port", help='QConnection port')
 parser.add_argument("-d", "--depth", help='Order Book depth')
@@ -30,6 +29,7 @@ DEPTH = int(args.depth)
 CONFIG = args.config
 KDBPORT = int(args.kdbport)
 GUIPORT = int(args.guiport)
+
 
 # create connection object
 q = qconnection.QConnection(host='localhost', port=PORT, pandas=True)
