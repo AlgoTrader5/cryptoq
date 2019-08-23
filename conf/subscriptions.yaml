@@ -28,6 +28,12 @@ coinbase:
     - XTZ-BTC
     - ZEC-USDC
     - ZEC-BTC
+    - ALGO-USD
+    - MANA-USDC
+    - GNT-USDC
+    - LOOM-USDC
+    - CVC-USDC
+    - DNT-USDC
 binance:
     - BTC-USDC
     - BAT-ETH
