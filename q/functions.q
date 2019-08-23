@@ -25,3 +25,19 @@ getLastTrade:{[]
         last side
     by sym from trades
     };
+    
+    
+getSymList:{[] (exec distinct sym from quote)};
+
+syncmd:{[SYMBOL;EXCH]
+    q:select from quotes where sym=SYMBOL,exch=EXCH;
+    q:update nav:((asize*bid)+(bsize*ask))%(bsize+asize) from q;
+    Sym:SYMBOL;
+    old_cols:cols q;
+    new_cols:{?[x in `bnum`bsize`bid`ask`asize`anum`nav;`$(string x),"_",ssr[(string y);"-";"_"];x]}[;Sym] each old_cols;
+    q:new_cols xcol q;
+    t:`utc_datetime xasc select from trades where sym=SYMBOL;
+    tq:`utc_datetime xasc t uj q;
+    tq};
+
+jjoin:{[x;y]x uj y};
