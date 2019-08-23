@@ -21,12 +21,14 @@ kraken:
 ```
 in command prompt, start q instance specifiying port and schema file
 ```shell
-q.exe q/schemas.q -p 5002
+q.exe q/load.q -p 5002
 ```
-in the q prompt, you can see tables and functions
+to see all table names loaded into q session:
 ```q
 q)tables[]
 `quotes`trades
+to see all functions loaded into q session:
+```q
 q)\f
 `s#`getCandlestick`getLastTrade
 ```
