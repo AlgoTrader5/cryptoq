@@ -9,7 +9,7 @@ Requirements:
 * cryptofeed (python library to stream cryptocurrency market data) https://github.com/bmoscon/cryptofeed
 
 # Getting Started
-configure the conf/subscriptions.yaml config file with exchange, channels and products
+Configure the conf/subscriptions.yaml config file with exchange as key and list of products as value. You can use the pre-existing file out of the box.
 example:
 ```yaml
 coinbase:
@@ -19,26 +19,29 @@ kraken:
     - BTC-USD
     - LTC-USD
 ```
-in command prompt, start q instance specifiying port and schema file
+In the command prompt, first start q instance specifiying port and load.q file. This file will loads table schemas and functions to the q session.
 ```shell
 q.exe q/load.q -p 5002
 ```
-to see all table names loaded into q session:
+To see all table names loaded into q session:
 ```q
 q)tables[]
 `quotes`trades
 ```
-to see all functions loaded into q session:
+To see all functions loaded into q session:
 ```q
 q)\f
 `s#`getCandlestick`getLastTrade
 ```
-in command prompt, change to cryptoq directory and start script 
+In command prompt, change to cryptoq directory and run bin/cryptoq.py script with arguments.
 ```shell
 python -m bin.cryptoq --port 5002 --depth 1 --config D:/repos/cryptoq/conf/subscriptions.yaml
 ```
-
-in q window, you can see trades and quotes data
+or if using Windows:
+```shell
+start_md.bat
+```
+In the q window, you can see trades and quotes data:
 ```q
 q)trades
 utc_datetime                  exch_datetime                 exch     sym      side amount     price    order_id
