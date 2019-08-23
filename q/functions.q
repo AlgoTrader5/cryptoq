@@ -23,8 +23,7 @@ getLastTrade:{[]
         last price, 
         last amount, 
         last side
-    by sym from trades
-    };
+    by sym from trades};
     
     
 getSymList:{[] (exec distinct sym from quote)};
