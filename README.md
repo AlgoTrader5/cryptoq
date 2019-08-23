@@ -27,6 +27,7 @@ to see all table names loaded into q session:
 ```q
 q)tables[]
 `quotes`trades
+```
 to see all functions loaded into q session:
 ```q
 q)\f
