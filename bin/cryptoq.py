@@ -106,6 +106,7 @@ def main():
 		
 		# save trades and quotes tables to disk
 		data_path = os.getcwd()+"/data"
+		data_path = data_path.replace("\\", "/")
 		q.sendSync(f"`:{data_path}/trades set trades")
 		q.sendSync(f"`:{data_path}/quotes set quotes")
 		q.close()
