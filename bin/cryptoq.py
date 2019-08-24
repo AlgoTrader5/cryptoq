@@ -105,7 +105,7 @@ def main():
 		p.terminate()
 		
 		# save trades and quotes tables to disk
-		data_path = "d:/repos/cryptoq/data"
+		data_path = os.getcwd()+"/data"
 		q.sendSync(f"`:{data_path}/trades set trades")
 		q.sendSync(f"`:{data_path}/quotes set quotes")
 		q.close()
