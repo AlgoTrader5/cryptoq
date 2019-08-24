@@ -1,3 +1,9 @@
+refdata:([]
+	exch:`symbol$();
+	sym:`symbol$();
+	sym2:`symbol$());
+
+
 trades:([]
 	utc_datetime:`timestamp$();
 	exch_datetime:`timestamp$();
