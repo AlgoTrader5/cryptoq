@@ -19,7 +19,7 @@ print(f"IPC version: {q.protocol_version}. Is connected: {q.is_connected()}")
 
 
 def insert_data(exch, sym, sym2):
-	qStr = f"`refdata insert (`symbol${exch};`symbol${sym};`symbol${sym2})"
+	qStr = f"`refdata insert (`$\"{exch}\";`$\"{sym}\";`$\"{sym2}\")"
 	try:
 		q.sendSync(qStr, param=None)
 	except QException as e:
@@ -35,7 +35,7 @@ def main():
 		pairs = gen_pairs(exch)
 		for k,v in pairs.items():
 			print(exch, k, v)
-            insert_data(exch, k, v)
+			insert_data(exch, k, v)
 
 
 if __name__ in "__main__":
