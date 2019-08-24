@@ -2,7 +2,9 @@ import argparse
 
 from qpython import qconnection
 from qpython.qtype import QException
+from cryptofeed.pairs import gen_pairs
 from cryptofeed.defines import BITSTAMP, BITFINEX, COINBASE, GEMINI, HITBTC, POLONIEX, KRAKEN, BINANCE, EXX, HUOBI, HUOBI_US, HUOBI_DM, OKCOIN, OKEX, COINBENE, BYBIT, FTX
+
 
 # parse args from command line
 parser = argparse.ArgumentParser()
@@ -14,7 +16,6 @@ q = qconnection.QConnection(host='localhost', port=args.port, pandas=True)
 # initialize connection
 q.open()
 print(f"IPC version: {q.protocol_version}. Is connected: {q.is_connected()}")
-from cryptofeed.pairs import gen_pairs
 
 
 def insert_data(exch, sym, sym2):
