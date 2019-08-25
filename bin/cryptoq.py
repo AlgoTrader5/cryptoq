@@ -17,18 +17,18 @@ from utils import read_cfg, trade_convert, book_convert
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument("-p", "--port", help='QConnection port')
-parser.add_argument("-d", "--depth", help='Order Book depth')
+parser.add_argument("-p", "--port", type=int, default=5002, help='QConnection port')
+parser.add_argument("-d", "--depth", type=int, default=1, help='Order Book depth')
 parser.add_argument("-c", "--config", help='path to the config file')
-parser.add_argument("-k", "--kdbport", default=5555, help='ZMQ port for kdb+ capture')
-parser.add_argument("-g", "--guiport", default=5556, help='ZMQ port for gui')
+parser.add_argument("-k", "--kdbport", type=int, default=5555, help='ZMQ port for kdb+ capture')
+parser.add_argument("-g", "--guiport", type=int, default=5556, help='ZMQ port for gui')
 args = parser.parse_args()
 
-PORT = int(args.port)
-DEPTH = int(args.depth)
+PORT = args.port
+DEPTH = args.depth
 CONFIG = args.config
-KDBPORT = int(args.kdbport)
-GUIPORT = int(args.guiport)
+KDBPORT = args.kdbport
+GUIPORT = args.guiport
 
 
 # create connection object
