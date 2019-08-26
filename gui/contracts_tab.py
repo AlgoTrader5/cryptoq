@@ -11,13 +11,11 @@ class ContractsTab(QtWidgets.QWidget):
         self.symbol_list = SymbolList(clients)
         self.subscriptions_list = SubscriptionsList(subscriptions)
         self.add_btn = QtWidgets.QPushButton("add")
-        
         self.add_btn.clicked.connect(self.on_click)
         
         layout = QtWidgets.QHBoxLayout()
         layout.addWidget(self.create_box_group())
         layout.addWidget(self.symbol_list)
-
         layout.addWidget(self.add_btn)
         layout.addWidget(self.subscriptions_list)
         self.setLayout(layout)
