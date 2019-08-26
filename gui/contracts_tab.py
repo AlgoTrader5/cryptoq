@@ -5,32 +5,17 @@ from subscriptions_list import SubscriptionsList
 from symbol_list import SymbolList
 
 class ContractsTab(QtWidgets.QWidget):
-	''' Window contains 3 widgets:
-
-	QRadioButton group containing exchanges to select syms from
-		- on selection change, emit change to ContractsList
-	
-	ContractsList (QListWidget) exchange specific symbols; sortable
-	should be capable of dragging row onto SubscriptionsList
-	or
-	select sym and add to subscriptions list
-
-	SubscriptionsList (QListWidget) selected symbols for subscriptions
-	should be able to click existing subscription and remove
-	'''
 
 	def __init__(self, clients, subscriptions, parent=None):
 		super(ContractsTab, self).__init__(parent)
 		self.symbol_list = SymbolList(clients)
 		self.subscriptions_list = SubscriptionsList(subscriptions)
 		self.add_btn = QtWidgets.QPushButton("add")
-		
 		self.add_btn.clicked.connect(self.on_click)
 		
 		layout = QtWidgets.QHBoxLayout()
 		layout.addWidget(self.create_box_group())
 		layout.addWidget(self.symbol_list)
-
 		layout.addWidget(self.add_btn)
 		layout.addWidget(self.subscriptions_list)
 		self.setLayout(layout)
@@ -51,12 +36,42 @@ class ContractsTab(QtWidgets.QWidget):
 		self.b3.toggled.connect(lambda:self.btnstate(self.b3))
 		self.b4 = QtWidgets.QRadioButton("poloniex")
 		self.b4.toggled.connect(lambda:self.btnstate(self.b4))
+		self.b5 = QtWidgets.QRadioButton("bitfinex")
+		self.b5.toggled.connect(lambda:self.btnstate(self.b5))
+		self.b6 = QtWidgets.QRadioButton("bitstamp")
+		self.b6.toggled.connect(lambda:self.btnstate(self.b6))
+		self.b7 = QtWidgets.QRadioButton("gemini")
+		self.b7.toggled.connect(lambda:self.btnstate(self.b7))
+		self.b8 = QtWidgets.QRadioButton("huobi")
+		self.b8.toggled.connect(lambda:self.btnstate(self.b8))
+		self.b9 = QtWidgets.QRadioButton("exx")
+		self.b9.toggled.connect(lambda:self.btnstate(self.b9))
+		self.b10 = QtWidgets.QRadioButton("okcoin")
+		self.b10.toggled.connect(lambda:self.btnstate(self.b10))
+		self.b11 = QtWidgets.QRadioButton("okex")
+		self.b11.toggled.connect(lambda:self.btnstate(self.b11))
+		self.b12 = QtWidgets.QRadioButton("coinbene")
+		self.b12.toggled.connect(lambda:self.btnstate(self.b12))
+		self.b13 = QtWidgets.QRadioButton("bybit")
+		self.b13.toggled.connect(lambda:self.btnstate(self.b13))
+		self.b14 = QtWidgets.QRadioButton("hitbtc")
+		self.b14.toggled.connect(lambda:self.btnstate(self.b14))
 
 		vbox = QtWidgets.QVBoxLayout()
 		vbox.addWidget(self.b1)
 		vbox.addWidget(self.b2)
 		vbox.addWidget(self.b3)
 		vbox.addWidget(self.b4)
+		vbox.addWidget(self.b5)
+		vbox.addWidget(self.b6)
+		vbox.addWidget(self.b7)
+		vbox.addWidget(self.b8)
+		vbox.addWidget(self.b9)
+		vbox.addWidget(self.b10)
+		vbox.addWidget(self.b11)
+		vbox.addWidget(self.b12)
+		vbox.addWidget(self.b13)
+		vbox.addWidget(self.b14)
 		vbox.addStretch(1)
 		group_box.setLayout(vbox)
 		return group_box
