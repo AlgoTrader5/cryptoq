@@ -1,12 +1,31 @@
-bitfinex:
+gemini:
     - BTC-USD
+    - ETH-BTC
     - ETH-USD
+    - BCH-USD
+    - BCH-ETH
+    - LTC-USD
+    - LTC-BTC
+    - LTC-ETH
+    - LTC-BCH
+    - ZEC-USD
+    - ZEC-ETH
+    - ZEC-BCH
+    - ZEC-LTC
+bitfinex:
+    - USDT-USD
+    - BTC-USD
+    - BTC-USDT
+    - ETH-USD
+    - ETH-USDT
     - ETH-BTC
     - ETC-USD
     - ETC-BTC
     - LTC-USD
+    - LTC-USDT
     - LTC-BTC
     - EOS-USD
+    - EOS-USDT
     - EOS-BTC
 bitstamp:
     - BTC-USD
@@ -54,25 +73,34 @@ coinbase:
     - DNT-USDC
 binance:
     - BTC-USDC
+    - BTC-USDT
     - BAT-ETH
+    - BAT-BTC
     - BAT-BNB
+    - BAT-USDC
+    - BAT-USDT
     - BNB-BTC
     - BNB-ETH
     - BNB-USDC
+    - BNB-USDT
     - EOS-USDC
+    - EOS-USDT
     - EOS-BTC
     - EOS-ETH
     - EOS-BNB
     - ETC-BNB
     - ETH-BTC
     - ETH-USDC
+    - ETH-USDT
     - LTC-BTC
     - LTC-BNB
     - LTC-USDC
+    - LTC-USDT
     - LINK-BTC
     - LINK-ETH
     - LINK-USDC
     - XRP-USDC
+    - XRP-USDT
     - XRP-BTC
     - XRP-BNB
 kraken:
@@ -97,19 +125,19 @@ kraken:
     - REP-BTC
     - REP-ETH
 poloniex:
+    - USDT-USDC
     - BTC-USDC
+    - BTC-USDT
+    - BAT-USDT
     - BAT-ETH
     - EOS-USDC
+    - EOS-USDT
     - EOS-BTC
     - EOS-ETH
     - ETC-USDC
     - ETC-ETH
     - ETH-USDC
+    - ETH-USDT
     - ETH-BTC
     - LTC-USDC
-    - XRP-USDC
-    - ZEC-USDC
-    - ZEC-ETH
-    - ZEC-BTC
-    - ZRX-ETH
-    - ZRX-BTC
+    - LTC-USDT
