@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from PyQt5 import QtWidgets, QtGui
-from subscriptions_list import SubscriptionsList
-from symbol_list import SymbolList
+from .subscriptions_list import SubscriptionsList
+from .symbol_list import SymbolList
 
 class ContractsTab(QtWidgets.QWidget):
 
