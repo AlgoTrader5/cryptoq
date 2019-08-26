@@ -1,182 +1,95 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# http://stackoverflow.com/questions/9957195/updating-gui-elements-in-multithreaded-pyqt
-import os
-import sys
-import yaml
-import argparse
-import webbrowser
-from datetime import datetime
-from decimal import Decimal
-from pprint import pprint
-
-from qpython import qconnection
-from qpython.qtype import QException
-
-from queue import Queue, Empty
 from PyQt5 import QtWidgets, QtGui
+from subscriptions_list import SubscriptionsList
+from symbol_list import SymbolList
 
-from contracts_tab import ContractsTab
-from cryptofeed.defines import BITSTAMP, BITFINEX, COINBASE, GEMINI, HITBTC, POLONIEX, KRAKEN, BINANCE, EXX, HUOBI, HUOBI_US, HUOBI_DM, OKCOIN, OKEX, COINBENE, BYBIT, FTX
-from cryptofeed.pairs import gen_pairs
+class ContractsTab(QtWidgets.QWidget):
+	''' Window contains 3 widgets:
 
+	QRadioButton group containing exchanges to select syms from
+		- on selection change, emit change to ContractsList
+	
+	ContractsList (QListWidget) exchange specific symbols; sortable
+	should be capable of dragging row onto SubscriptionsList
+	or
+	select sym and add to subscriptions list
 
-class MainWindow(QtWidgets.QMainWindow):
-    def __init__(self, port):
-        super(MainWindow, self).__init__()
+	SubscriptionsList (QListWidget) selected symbols for subscriptions
+	should be able to click existing subscription and remove
+	'''
 
-        # create connection object
-        self.q = qconnection.QConnection(host='localhost', port=port, pandas=True)
-        # initialize connection
-        self.q.open()
+	def __init__(self, clients, subscriptions, parent=None):
+		super(ContractsTab, self).__init__(parent)
+		self.symbol_list = SymbolList(clients)
+		self.subscriptions_list = SubscriptionsList(subscriptions)
+		self.add_btn = QtWidgets.QPushButton("add")
+		
+		self.add_btn.clicked.connect(self.on_click)
+		
+		layout = QtWidgets.QHBoxLayout()
+		layout.addWidget(self.create_box_group())
+		layout.addWidget(self.symbol_list)
 
-        # windows
-        self.central_widget = None
-        self.exchange_window = None
-        self.contracts_window = None
-        self.strategy_window = None
-
-
-        self._client_dict = {
-            'coinbase': gen_pairs(COINBASE),
-            'kraken': gen_pairs(KRAKEN),
-            'poloniex': gen_pairs(POLONIEX),
-            'binance': gen_pairs(BINANCE),
-            'bitstamp': gen_pairs(BITSTAMP),
-            'bitfinex': gen_pairs(BITFINEX),
-            'gemini': gen_pairs(GEMINI),
-            'hitbtc': gen_pairs(HITBTC),
-            'exx': gen_pairs(EXX),
-            'huobi': gen_pairs(HUOBI),
-            'okcoin': gen_pairs(OKCOIN),
-            'okex': gen_pairs(OKEX),
-            'coinbene': gen_pairs(COINBENE),
-            'bybit': gen_pairs(BYBIT)
-        }
-
-        self._subscription_dict = self._read_config('conf/subscriptions.yaml')
-        # self._strategy_dict = self._read_config('D:\\Apps\\Romer\\conf\\config_client.yaml')
-
-        
-        # 1. set up gui windows
-        self.setGeometry(50, 50, 600, 400)
-        self.setWindowTitle('ConfigUI')
-        self.init_menu()
-        # self.init_status_bar()
-        self.init_central_area()
+		layout.addWidget(self.add_btn)
+		layout.addWidget(self.subscriptions_list)
+		self.setLayout(layout)
 
 
-    def _read_config(self, file_path):
-        '''examples
-        
-        subscriptions:
-        {'CBPRO': ['BTC-USD',
-                    ...
-                    'ZEC-BTC']}
-        '''
-        subscriptions = None
-        try:
-            with open(file_path, encoding='utf8') as fd:
-                subscriptions = yaml.safe_load(fd)
-        except IOError:
-            print(f"{file_path} is missing")
+	def on_click(self, i):
+		print('on click', i)
+ 	
 
-        return subscriptions
+	def create_box_group(self):
+		group_box = QtWidgets.QGroupBox()
+		self.b1 = QtWidgets.QRadioButton("coinbase")
+		self.b1.setChecked(True)
+		self.b1.toggled.connect(lambda:self.btnstate(self.b1))
+		self.b2 = QtWidgets.QRadioButton("kraken")
+		self.b2.toggled.connect(lambda:self.btnstate(self.b2))
+		self.b3 = QtWidgets.QRadioButton("binance")
+		self.b3.toggled.connect(lambda:self.btnstate(self.b3))
+		self.b4 = QtWidgets.QRadioButton("poloniex")
+		self.b4.toggled.connect(lambda:self.btnstate(self.b4))
+		self.b5 = QtWidgets.QRadioButton("bitfinex")
+		self.b5.toggled.connect(lambda:self.btnstate(self.b5))
+		self.b6 = QtWidgets.QRadioButton("bitstamp")
+		self.b6.toggled.connect(lambda:self.btnstate(self.b6))
+		self.b7 = QtWidgets.QRadioButton("gemini")
+		self.b7.toggled.connect(lambda:self.btnstate(self.b7))
+		self.b8 = QtWidgets.QRadioButton("huobi")
+		self.b8.toggled.connect(lambda:self.btnstate(self.b8))
+		self.b9 = QtWidgets.QRadioButton("okex")
+		self.b9.toggled.connect(lambda:self.btnstate(self.b9))
+		self.b10 = QtWidgets.QRadioButton("okcoin")
+		self.b10.toggled.connect(lambda:self.btnstate(self.b10))
+		self.b11 = QtWidgets.QRadioButton("exx")
+		self.b11.toggled.connect(lambda:self.btnstate(self.b11))
+		self.b12 = QtWidgets.QRadioButton("bybit")
+		self.b12.toggled.connect(lambda:self.btnstate(self.b12))
 
-    def _save_config(self, file_path):
-        subscriptions = None
-        try:
-            with open(file_path, encoding='utf8') as fd:
-                subscriptions = yaml.safe_load(fd)
-        except IOError:
-            print(f"{file_path} is missing")
 
-        return subscriptions
+		vbox = QtWidgets.QVBoxLayout()
+		vbox.addWidget(self.b1)
+		vbox.addWidget(self.b2)
+		vbox.addWidget(self.b3)
+		vbox.addWidget(self.b4)
+		vbox.addWidget(self.b5)
+		vbox.addWidget(self.b6)
+		vbox.addWidget(self.b7)
+		vbox.addWidget(self.b8)
+        vbox.addWidget(self.b9)
+        vbox.addWidget(self.b10)
+        vbox.addWidget(self.b11)
+        vbox.addWidget(self.b12)
+		vbox.addStretch(1)
+		group_box.setLayout(vbox)
+		return group_box
+		
 
-
-    #################################################################################################
-    # -------------------------------- Event Handler   --------------------------------------------#
-    #################################################################################################
-
-    def update_status_bar(self, message):
-        self.statusBar().showMessage(message)
-
-    def open_proj_folder(self):
-        webbrowser.open('conf/')
-
-    def closeEvent(self, a0: QtGui.QCloseEvent):
-        print('close main window')
-
-    #################################################################################################
-    # ------------------------------ Event Handler Ends --------------------------------------------#
-    #################################################################################################
+	def btnstate(self,b):
+		if b.isChecked():
+			self.symbol_list.select_exchange.emit(b.text())
 
 
 
-
-    #################################################################################################
-    # -------------------------------- User Interface  --------------------------------------------#
-    #################################################################################################
-
-    def init_menu(self):
-        menubar = self.menuBar()
-        sysMenu = menubar.addMenu('File')
-        # open folder
-        sys_folderAction = QtWidgets.QAction('Folder', self)
-        sys_folderAction.setStatusTip('Open_Folder')
-        sys_folderAction.triggered.connect(self.open_proj_folder)
-        sysMenu.addAction(sys_folderAction)
-        sysMenu.addSeparator()
-        # sys|exit
-        sys_exitAction = QtWidgets.QAction('Exit', self)
-        sys_exitAction.setShortcut('Ctrl+Q')
-        sys_exitAction.setStatusTip('Exit_App')
-        sys_exitAction.triggered.connect(self.close)
-        sysMenu.addAction(sys_exitAction)
-
-
-    def init_central_area(self):
-        self.central_widget = QtWidgets.QWidget()
-        hbox = QtWidgets.QHBoxLayout()
-        # -------------------------------- bottom Left ------------------------------------------#
-        tab_widget = QtWidgets.QTabWidget()
-        tab1 = QtWidgets.QWidget()          # contract
-        tab2 = QtWidgets.QWidget()          # strategy
-        tab_widget.addTab(tab1, 'Contract')
-        tab_widget.addTab(tab2, 'Strategy')
-
-        # --------------------------------  CONTRACT TAB ------------------------------------------#
-        self.contract_tab = ContractsTab(self._client_dict, self._subscription_dict)
-        contract_tab_layout = QtWidgets.QHBoxLayout()
-        contract_tab_layout.addWidget(self.contract_tab)
-        tab1.setLayout(contract_tab_layout)
-
-        # --------------------------------  STRATEGY TAB ------------------------------------------#
-        # self.strategy_config_window = StrategyConfigWindow(self.db_client)
-        tab2_layout = QtWidgets.QVBoxLayout()
-        # tab2_layout.addWidget(self.strategy_config_window)
-        tab2.setLayout(tab2_layout)
-
-        hbox.addWidget(tab_widget)
-        self.central_widget.setLayout(hbox)
-        self.setCentralWidget(self.central_widget)
-
-    #################################################################################################
-    # ------------------------------ User Interface End --------------------------------------------#
-    #################################################################################################
-
-
-
-if __name__ == '__main__':
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-p", "--port", help='QConnection port')
-    args = parser.parse_args()
-    
-    app = QtWidgets.QApplication([])
-
-    win = MainWindow(port=int(args.port))
-    win.resize(1000, 500)
-    win.show()
-
-    sys.exit(app.exec_())
