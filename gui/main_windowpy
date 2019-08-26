@@ -4,7 +4,6 @@
 import os
 import sys
 import yaml
-import logging
 import argparse
 import webbrowser
 from datetime import datetime
@@ -18,8 +17,8 @@ from queue import Queue, Empty
 from PyQt5 import QtCore, QtWidgets, QtGui
 
 from contracts_tab import ContractsTab
-from cryptofeed.pairs import binance_pairs, coinbase_pairs, poloniex_pairs, kraken_rest_pairs
-
+from cryptofeed.defines import BITSTAMP, BITFINEX, COINBASE, GEMINI, HITBTC, POLONIEX, KRAKEN, BINANCE, EXX, HUOBI, HUOBI_US, HUOBI_DM, OKCOIN, OKEX, COINBENE, BYBIT, FTX
+from cryptofeed.pairs import gen_pairs
 
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, port):
@@ -38,10 +37,20 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
         self._client_dict = {
-            'coinbase': coinbase_pairs(),
-            'kraken': kraken_rest_pairs(),
-            'poloniex': poloniex_pairs(),
-            'binance': binance_pairs(),
+            'coinbase': gen_pairs(COINBASE),
+            'kraken': gen_pairs(KRAKEN),
+            'poloniex': gen_pairs(POLONIEX),
+            'binance': gen_pairs(BINANCE),
+            'bitstamp': gen_pairs(BITSTAMP),
+            'bitfinex': gen_pairs(BITFINEX),
+            'gemini': gen_pairs(GEMINI),
+            'hitbtc': gen_pairs(HITBTC),
+            'exx': gen_pairs(EXX),
+            'huobi': gen_pairs(HUOBI),
+            'okcoin': gen_pairs(OKCOIN),
+            'okex': gen_pairs(OKEX),
+            'coinbene': gen_pairs(COINBENE),
+            'bybit': gen_pairs(BYBIT)
         }
 
         self._subscription_dict = self._read_config('subscriptions.yaml')
@@ -156,25 +165,3 @@ class MainWindow(QtWidgets.QMainWindow):
     # ------------------------------ User Interface End --------------------------------------------#
     #################################################################################################
 
-
-
-if __name__ == '__main__':
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-p", "--port", help='QConnection port')
-    args = parser.parse_args()
-
-    logging.basicConfig(
-        filename="gui.log",
-        filemode='w',
-        level=logging.INFO,
-        format='%(asctime)s %(levelname)s [%(process)d] %(module)s.%(funcName)s +%(lineno)s: %(message)s')
-
-
-    app = QtWidgets.QApplication([])
-
-    win = MainWindow(port=int(args.port))
-    win.resize(1000, 500)
-    win.show()
-
-    sys.exit(app.exec_())
