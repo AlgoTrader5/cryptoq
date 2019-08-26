@@ -1,5 +1,6 @@
 import sys
 import argparse
+from PyQt5 import QtWidgets
 from gui.main_window import MainWindow
  
 def main():
