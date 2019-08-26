@@ -1,3 +1,5 @@
+import sys
+import argparse
 from gui.main_window import MainWindow
  
 def main():
