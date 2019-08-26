@@ -21,7 +21,7 @@ from cryptofeed.defines import BITSTAMP, BITFINEX, COINBASE, GEMINI, HITBTC, POL
 from cryptofeed.pairs import gen_pairs
 
 class MainWindow(QtWidgets.QMainWindow):
-    def __init__(self, port):
+    def __init__(self, port, config):
         super(MainWindow, self).__init__()
 
         # create connection object
@@ -53,14 +53,13 @@ class MainWindow(QtWidgets.QMainWindow):
             'bybit': gen_pairs(BYBIT)
         }
 
-        self._subscription_dict = self._read_config('subscriptions.yaml')
+        self._subscription_dict = self._read_config(config)
         # self._strategy_dict = self._read_config('D:\\Apps\\Romer\\conf\\config_client.yaml')
 
         
         # 1. set up gui windows
         self.setGeometry(50, 50, 600, 400)
         self.setWindowTitle('ConfigUI')
-        # self.setWindowIcon(QtGui.QIcon("D:\\Apps\\Romer\\RomerUI\\source\\icons\\toucan_fire.jpg"))
         self.init_menu()
         # self.init_status_bar()
         self.init_central_area()
