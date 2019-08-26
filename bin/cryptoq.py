@@ -9,7 +9,7 @@ from qpython.qtype import QException
 
 from cryptofeed.backends.zmq import BookZMQ, TradeZMQ
 from cryptofeed import FeedHandler
-from cryptofeed.exchanges import Coinbase, Kraken, Binance, Poloniex, Bitfinex, Bitstamp
+from cryptofeed.exchanges import Coinbase, Kraken, Binance, Poloniex, Bitfinex, Bitstamp, Gemini
 from cryptofeed.defines import TRADES, L2_BOOK
 
 
@@ -109,6 +109,13 @@ def main():
 		f.add_feed(Bitstamp(
 			channels=[L2_BOOK, TRADES], 
 			pairs=subscriptions['bitstamp'], 
+			callbacks={
+				TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
+				L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
+		
+		f.add_feed(Gemini(
+			channels=[L2_BOOK, TRADES], 
+			pairs=subscriptions['gemini'], 
 			callbacks={
 				TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
 				L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
