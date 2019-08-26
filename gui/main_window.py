@@ -4,7 +4,6 @@
 import os
 import sys
 import yaml
-import argparse
 import webbrowser
 from datetime import datetime
 from decimal import Decimal
@@ -17,7 +16,7 @@ from queue import Queue, Empty
 from PyQt5 import QtCore, QtWidgets, QtGui
 
 from contracts_tab import ContractsTab
-from cryptofeed.defines import BITSTAMP, BITFINEX, COINBASE, GEMINI, HITBTC, POLONIEX, KRAKEN, BINANCE, EXX, HUOBI, HUOBI_US, HUOBI_DM, OKCOIN, OKEX, COINBENE, BYBIT, FTX
+from cryptofeed.defines import BITSTAMP, BITFINEX, COINBASE, GEMINI, HITBTC, POLONIEX, KRAKEN, BINANCE, EXX, HUOBI, HUOBI_US, OKCOIN, OKEX, COINBENE, BYBIT
 from cryptofeed.pairs import gen_pairs
 
 class MainWindow(QtWidgets.QMainWindow):
