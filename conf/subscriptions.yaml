@@ -1,3 +1,21 @@
+bitfinex:
+    - BTC-USD
+    - ETH-USD
+    - ETH-BTC
+    - ETC-USD
+    - ETC-BTC
+    - LTC-USD
+    - LTC-BTC
+    - EOS-USD
+    - EOS-BTC
+bitstamp:
+    - BTC-USD
+    - ETH-USD
+    - ETH-BTC
+    - LTC-USD
+    - LTC-BTC
+    - XRP-USD
+    - XRP-BTC
 coinbase:
     - BTC-USD
     - BTC-USDC
