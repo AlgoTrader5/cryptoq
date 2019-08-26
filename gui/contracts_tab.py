@@ -5,19 +5,6 @@ from subscriptions_list import SubscriptionsList
 from symbol_list import SymbolList
 
 class ContractsTab(QtWidgets.QWidget):
-	''' Window contains 3 widgets:
-
-	QRadioButton group containing exchanges to select syms from
-		- on selection change, emit change to ContractsList
-	
-	ContractsList (QListWidget) exchange specific symbols; sortable
-	should be capable of dragging row onto SubscriptionsList
-	or
-	select sym and add to subscriptions list
-
-	SubscriptionsList (QListWidget) selected symbols for subscriptions
-	should be able to click existing subscription and remove
-	'''
 
 	def __init__(self, clients, subscriptions, parent=None):
 		super(ContractsTab, self).__init__(parent)
