@@ -40,18 +40,18 @@ async def multi_tickers(exchanges):
 
 
 def insert_data(exch, sym, refdata):
-	# print(refdata)
 	makerFee = refdata['maker']
 	takerFee = refdata['taker']
 	minTick = refdata['limits']['price']['min']
 	minSize = refdata['limits']['amount']['min']
-	print(exch, sym, makerFee, takerFee, minTick, minSize)
-
-	# qStr = f"`refdata insert (`$\"{exch}\";`$\"{sym}\";`$\"{sym2}\")"
-	# try:
-	# 	q.sendSync(qStr, param=None)
-	# except QException as e:
-	# 	print(f"Error executing query {qStr} against server. {e}")
+	
+	qStr = f"`refdata insert (`$\"{sym}\";`$\"{exch}\";" \
+			f"`float${minTick};`float${minSize};" \
+			f"`float${makerFee};`float${takerFee})"
+	try:
+		q.sendSync(qStr, param=None)
+	except QException as e:
+		print(f"Error executing query {qStr} against server. {e}")
 
 		
 if __name__ == '__main__':
@@ -63,7 +63,6 @@ if __name__ == '__main__':
 		"coinbasepro", "kraken", "binance", "bitstamp", "gemini",
 		"okex", "kucoin", "exx"
 	]
-	# exchanges = ["coinbasepro"]
 
 	tic = time.time()
 	markets = asyncio.get_event_loop().run_until_complete(multi_tickers(exchanges))
