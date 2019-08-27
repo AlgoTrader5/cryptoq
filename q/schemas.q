@@ -1,7 +1,10 @@
 refdata:([]
 	exch:`symbol$();
 	sym:`symbol$();
-	sym2:`symbol$());
+	minTick:`float$();
+	minSize:`float$();
+	makerFee:`float$();
+	takerFee:`float$());
 
 
 trades:([]
