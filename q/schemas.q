@@ -15,7 +15,7 @@ trades:([]
 	side:`symbol$();
 	amount:`float$();
 	price:`float$();
-	order_id:`long$());
+	tradeid:`long$());
 
 quotes:([]
 	utc_datetime:`timestamp$();
