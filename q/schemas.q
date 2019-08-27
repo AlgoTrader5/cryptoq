@@ -1,6 +1,6 @@
 refdata:([]
-	exch:`symbol$();
 	sym:`symbol$();
+	exch:`symbol$();
 	minTick:`float$();
 	minSize:`float$();
 	makerFee:`float$();
