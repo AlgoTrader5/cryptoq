@@ -35,7 +35,10 @@ def book_convert(data, depth):
     data = data.split(" ", 1)[1]
     data = json.loads(data)
     hwt = str(datetime.utcnow().isoformat()).replace("T","D").replace("-",".")
-    ts = str(datetime.fromtimestamp(int(data['data']['timestamp'])).isoformat()).replace("T","D").replace("-",".")
+    if isinstance(data['data']['timestamp'], str):
+        ts = str(datetime.fromtimestamp(int(data['data']['timestamp'])).isoformat()).replace("T","D").replace("-",".")
+    else:
+        ts = str(datetime.fromtimestamp(data['data']['timestamp']).isoformat()).replace("T","D").replace("-",".")
     bid_price = list(data['data']['bid'])[0]
     bid_size = float(data['data']['bid'][bid_price])
     ask_price = list(data['data']['ask'])[0]
