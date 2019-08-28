@@ -85,12 +85,12 @@ def main():
 				TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
 				L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
 		
-		# f.add_feed(Binance(
-		# 	channels=[L2_BOOK, TRADES], 
-		# 	pairs=subscriptions['binance'], 
-		# 	callbacks={
-		# 		TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
-		# 		L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
+		f.add_feed(Binance(
+			channels=[L2_BOOK, TRADES], 
+			pairs=subscriptions['binance'], 
+			callbacks={
+				TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
+				L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
 
 		f.add_feed(Poloniex(
 			channels=[L2_BOOK, TRADES], 
