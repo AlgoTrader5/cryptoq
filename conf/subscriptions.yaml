@@ -74,10 +74,6 @@ coinbase:
 binance:
     - BTC-USDC
     - BTC-USDT
-    - BAT-BTC
-    - BAT-BNB
-    - BAT-USDC
-    - BAT-USDT
     - BNB-BTC
     - BNB-USDC
     - BNB-USDT
