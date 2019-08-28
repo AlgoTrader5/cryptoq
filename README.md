@@ -2,11 +2,12 @@
 stores streaming trade and quote data from cryptofeed to kdb
 
 Requirements:
-* python>=3.6 
+* python>=3.6
 * 32-bit or 64-bit version of kdb+ https://kx.com/connect-with-us/download/
 * qpython (python library to interact with q)
-* zmq
+* pyzmq
 * cryptofeed (python library to stream cryptocurrency market data) https://github.com/bmoscon/cryptofeed
+* ccxt (cryptocurrency library to request reference data)
 
 # Getting Started
 Configure the conf/subscriptions.yaml config file with exchange as key and list of products as value. You can use the pre-existing file out of the box.
@@ -31,7 +32,7 @@ q)tables[]
 To see all functions loaded into q session:
 ```q
 q)\f
-`s#`getCandlestick`getLastTrade
+`getCandlestick`getLastTrade`getSymList`jjoin`out`syncmd
 ```
 In command prompt, change to cryptoq directory and run bin/cryptoq.py script with arguments.
 ```shell
