@@ -45,7 +45,7 @@ start_md.bat
 In the q window, you can see trades and quotes data:
 ```q
 q)trades
-utc_datetime                  exch_datetime                 exch     sym      side amount     price    order_id
+utc_datetime                  exch_datetime                 exch     sym      side amount     price    tradeid
 ---------------------------------------------------------------------------------------------------------------
 2019.07.17D22:03:28.561529000 2019.07.17D17:03:24.427000000 COINBASE EOS-USD  sell 42.8       3.956    396979  
 2019.07.17D22:03:28.760387000 2019.07.17D17:03:24.641000000 COINBASE ETH-USD  buy  5          215.52   50223672
