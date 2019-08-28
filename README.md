@@ -27,7 +27,7 @@ q.exe q/load.q -p 5002
 To see all table names loaded into q session:
 ```q
 q)tables[]
-`quotes`trades
+`quotes`refdata`trades
 ```
 To see all functions loaded into q session:
 ```q
