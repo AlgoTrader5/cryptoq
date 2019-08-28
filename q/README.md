@@ -16,21 +16,29 @@ minute| sym     exch     num volume    o        h        l        c        vwap 
 02:51 | BTC-USD COINBASE 15  2.25401   10637.01 10637.5  10630.83 10636.55 10636.5  1.91604   0.33797    11     4      
 02:52 | BTC-USD COINBASE 10  0.4985982 10636.55 10647.59 10636.55 10647.3  10641.42 0.4282986 0.07029962 7      3  
 ```
+The refdata portion is still work in progress. The data coming from ccxt is unreliable.
 ```q
-q)select from refdata where sym=`$"LTC-BTC"
-exch     sym     sym2
-------------------------
-BITSTAMP LTC-BTC ltcbtc
-BITFINEX LTC-BTC tLTCBTC
-COINBASE LTC-BTC LTC-BTC
-GEMINI   LTC-BTC LTCBTC
-HITBTC   LTC-BTC LTCBTC
-POLONIEX LTC-BTC BTC_LTC
-KRAKEN   LTC-BTC LTC/XBT
-BINANCE  LTC-BTC LTCBTC
-EXX      LTC-BTC LTC_BTC
-HUOBI    LTC-BTC ltcbtc
-HUOBI_US LTC-BTC ltcbtc
-OKEX     LTC-BTC LTC-BTC
-COINBENE LTC-BTC LTCBTC
+q)select from refdata where exch=`coinbasepro
+sym       exch        minTick minSize makerFee takerFee
+-------------------------------------------------------
+XTZ/BTC   coinbasepro 1e-008  1       0        0.003
+REP/USD   coinbasepro 0.01    0.1     0        0.003
+BTC/USDC  coinbasepro 0.01    0.001   0        0.003
+ZRX/BTC   coinbasepro 1e-008  1       0        0.003
+BCH/EUR   coinbasepro 0.01    0.01    0        0.003
+ZEC/USDC  coinbasepro 0.01    0.01    0        0.003
+LTC/USD   coinbasepro 0.01    0.1     0        0.003
+BAT/USDC  coinbasepro 1e-006  1       0        0.003
+XLM/USD   coinbasepro 1e-006  1       0        0.003
+DNT/USDC  coinbasepro 1e-006  1       0        0.003
+LTC/EUR   coinbasepro 0.01    0.1     0        0.003
+BTC/GBP   coinbasepro 0.01    0.001   0        0.003
+ETC/GBP   coinbasepro 0.001   0.1     0        0.003
+EOS/BTC   coinbasepro 1e-006  0.1     0        0.003
+LINK/USD  coinbasepro 1e-005  1       0        0.003
+ETC/BTC   coinbasepro 1e-006  0.1     0        0.003
+MANA/USDC coinbasepro 1e-006  1       0        0.003
+REP/BTC   coinbasepro 1e-006  0.1     0        0.003
+XLM/BTC   coinbasepro 1e-008  1       0        0.003
+ETC/EUR   coinbasepro 0.001   0.1     0        0.003
 ```
