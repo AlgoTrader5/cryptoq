@@ -17,11 +17,11 @@ from utils import read_cfg, trade_convert, book_convert
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--port", type=int, default=5002, help="QConnection port")
-parser.add_argument("--depth", type=int, default=1, help="Order Book depth")
-parser.add_argument("--config", type=str, default="conf\\subscriptions.yaml", help="path to the config file")
-parser.add_argument("--kdbport", type=int, default=5555, help="ZMQ port for kdb+ capture")
-parser.add_argument("--guiport", type=int, default=5556, help="ZMQ port for gui")
+parser.add_argument("--q-port", dest="port", type=int, default=5002, help='QConnection port')
+parser.add_argument("--depth", type=int, default=1, help='Order Book depth')
+parser.add_argument("--config", type=str, default='conf\\subscriptions.yaml', help='path to the config file')
+parser.add_argument("--kdb-port", dest="kdbport", type=int, default=5555, help='ZMQ port for kdb+ capture')
+parser.add_argument("--gui-port", dest="guiport", type=int, default=5556, help='ZMQ port for gui')
 args = parser.parse_args()
 
 PORT = args.port
