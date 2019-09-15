@@ -5,6 +5,16 @@ kraken_futures:
   - PI_BCHUSD
 kraken:
   - BTC-USD
+  - BTC-EUR
   - ETH-USD
+  - ETH-EUR
+  - ETH-BTC
   - LTC-USD
+  - LTC-EUR
+  - LTC-BTC
   - BCH-USD
+  - BCH-EUR
+  - BCH-BTC
+  - XRP-USD
+  - XRP-EUR
+  - XRP-BTC
