@@ -63,9 +63,9 @@ def main():
 	print(f"IPC version: {q.protocol_version}. Is connected: {q.is_connected()}")
 	
 	subscriptions = read_cfg(CONFIG)
-    
+	
 	try:
-        
+		
 		p = Process(target=receiver, args=(KDBPORT,))
 		p.start()
 
@@ -79,8 +79,8 @@ def main():
 					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
 					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
 		
-        
-        if "kraken" in subscriptions.keys():
+		
+		if "kraken" in subscriptions.keys():
 			f.add_feed(Kraken(
 				channels=[L2_BOOK, TRADES], 
 				pairs=subscriptions['kraken'], 
@@ -88,8 +88,8 @@ def main():
 					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
 					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
 		
-        
-        if "kraken_futures" in subscriptions.keys():
+		
+		if "kraken_futures" in subscriptions.keys():
 			f.add_feed(KrakenFutures(
 				channels=[L2_BOOK, TRADES], 
 				pairs=subscriptions['kraken_futures'], 
@@ -97,8 +97,8 @@ def main():
 					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
 					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
 		
-        
-        if "binance" in subscriptions.keys():
+		
+		if "binance" in subscriptions.keys():
 			f.add_feed(Binance(
 				channels=[L2_BOOK, TRADES], 
 				pairs=subscriptions['binance'], 
@@ -106,8 +106,8 @@ def main():
 					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
 					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
 		
-        
-        if "poloniex" in subscriptions.keys():
+		
+		if "poloniex" in subscriptions.keys():
 			f.add_feed(Poloniex(
 				channels=[L2_BOOK, TRADES], 
 				pairs=subscriptions['poloniex'], 
@@ -115,8 +115,8 @@ def main():
 					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
 					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
 		
-        
-        if "bitfinex" in subscriptions.keys():
+		
+		if "bitfinex" in subscriptions.keys():
 			f.add_feed(Bitfinex(
 				channels=[L2_BOOK, TRADES], 
 				pairs=subscriptions['bitfinex'], 
@@ -124,8 +124,8 @@ def main():
 					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
 					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
 		
-        
-        if "bitstamp" in subscriptions.keys():
+		
+		if "bitstamp" in subscriptions.keys():
 			f.add_feed(Bitstamp(
 				channels=[L2_BOOK, TRADES], 
 				pairs=subscriptions['bitstamp'], 
@@ -133,8 +133,8 @@ def main():
 					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
 					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
 		
-        
-        if "gemini" in subscriptions.keys():
+		
+		if "gemini" in subscriptions.keys():
 			f.add_feed(Gemini(
 				channels=[L2_BOOK, TRADES], 
 				pairs=subscriptions['gemini'], 
@@ -153,9 +153,9 @@ def main():
 		# save trades and quotes tables to disk
 		data_path = os.getcwd()+"/data"
 		data_path = data_path.replace("\\", "/")
-        trades_path = f"`:{data_path}/trades set trades"
-        quotes_path = f"`:{data_path}/quotes set quotes"
-        print(f"saving to disk quotes -> {quotes_path} trades -> {trades_path}")
+		trades_path = f"`:{data_path}/trades set trades"
+		quotes_path = f"`:{data_path}/quotes set quotes"
+		print(f"saving to disk quotes -> {quotes_path} trades -> {trades_path}")
 		q.sendSync(trades_path)
 		q.sendSync(quotes_path)
 		q.close()
