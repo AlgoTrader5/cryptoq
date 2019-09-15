@@ -19,6 +19,7 @@ def trade_convert(data):
     try:
         ts = str(datetime.fromtimestamp(data['timestamp']).isoformat()).replace("T","D").replace("-",".")
     except Exception as e:
+        # kraken futures
         ts = str(datetime.fromtimestamp(data['timestamp']/1000).isoformat()).replace("T","D").replace("-",".")
     exch = data['feed']
     pair = data['pair']
@@ -26,9 +27,9 @@ def trade_convert(data):
     price = data['price']
     amount = data['amount']
     if data['id']:
-        order_id = data['id'] 
+        trade_id = data['id'] 
     else:
-        order_id = 0
+        trade_id = 0
     return f"`trades insert (`timestamp${hwt};`timestamp${ts};" \
             f"`{exch};`$\"{pair}\";`{side};`float${amount};" \
             f"`float${price};`$\"{trade_id}\")"
