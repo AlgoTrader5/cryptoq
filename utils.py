@@ -16,7 +16,10 @@ def trade_convert(data):
     data = data.split(" ", 1)[1]
     data = json.loads(data)
     hwt = str(datetime.utcnow().isoformat()).replace("T","D").replace("-",".")
-    ts = str(datetime.fromtimestamp(data['timestamp']).isoformat()).replace("T","D").replace("-",".")
+    try:
+        ts = str(datetime.fromtimestamp(data['timestamp']).isoformat()).replace("T","D").replace("-",".")
+    except Exception as e:
+        ts = str(datetime.fromtimestamp(data['timestamp']/1000).isoformat()).replace("T","D").replace("-",".")
     exch = data['feed']
     pair = data['pair']
     side = data['side']
@@ -28,7 +31,7 @@ def trade_convert(data):
         order_id = 0
     return f"`trades insert (`timestamp${hwt};`timestamp${ts};" \
             f"`{exch};`$\"{pair}\";`{side};`float${amount};" \
-            f"`float${price};`int${order_id})"
+            f"`float${price};`$\"{trade_id}\")"
 
 
 def book_convert(data, depth):
