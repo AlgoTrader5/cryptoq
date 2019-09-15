@@ -1,15 +1,17 @@
-coinbase:
-  - BTC-USD
-  - BTC-USDC
-  - ETH-USD
-  - ETH-USDC
-  - ETH-BTC
 ftx:
-  - BTC-USD
+  - BTC-PERP
+  - ETH-PERP
+  - LTC-PERP
+  - BCH-PERP
+  - EOS-PERP
+  - XRP-PERP
 okcoin:
   - BTC-USD
-okex:
-  - BTC-USD
+  - ETH-USD
+  - LTC-USD
+  - BCH-USD
+  - EOS-USD
+  - XRP-USD
 kraken_futures:
   - PI_XBTUSD
   - PI_ETHUSD
@@ -18,16 +20,16 @@ kraken_futures:
   - PV_XRPXBT
 kraken:
   - BTC-USD
-  - BTC-EUR
+  - BCH-USD
+  - BCH-BTC
   - ETH-USD
-  - ETH-EUR
   - ETH-BTC
+  - EOS-USD
+  - EOS-BTC
+  - EOS-ETH
   - LTC-USD
-  - LTC-EUR
   - LTC-BTC
   - BCH-USD
-  - BCH-EUR
   - BCH-BTC
   - XRP-USD
-  - XRP-EUR
   - XRP-BTC
