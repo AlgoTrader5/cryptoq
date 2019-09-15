@@ -1,0 +1,10 @@
+kraken_futures:
+  - PI_XBTUSD
+  - PI_ETHUSD
+  - PI_LTCUSD
+  - PI_BCHUSD
+kraken:
+  - BTC-USD
+  - ETH-USD
+  - LTC-USD
+  - BCH-USD
