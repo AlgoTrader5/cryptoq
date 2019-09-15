@@ -1,8 +1,21 @@
+coinbase:
+  - BTC-USD
+  - BTC-USDC
+  - ETH-USD
+  - ETH-USDC
+  - ETH-BTC
+ftx:
+  - BTC-USD
+okcoin:
+  - BTC-USD
+okex:
+  - BTC-USD
 kraken_futures:
   - PI_XBTUSD
   - PI_ETHUSD
   - PI_LTCUSD
   - PI_BCHUSD
+  - PV_XRPXBT
 kraken:
   - BTC-USD
   - BTC-EUR
