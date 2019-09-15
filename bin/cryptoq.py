@@ -97,7 +97,31 @@ def main():
 					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
 					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
 		
+		if "ftx" in subscriptions.keys():
+			f.add_feed(FTX(
+				channels=[L2_BOOK, TRADES], 
+				pairs=subscriptions['ftx'], 
+				callbacks={
+					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
+					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
+
+		if "okcoin" in subscriptions.keys():
+			f.add_feed(OKCoin(
+				channels=[L2_BOOK, TRADES], 
+				pairs=subscriptions['okcoin'], 
+				callbacks={
+					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
+					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
 		
+		
+		if "okex" in subscriptions.keys():
+			f.add_feed(OKEx(
+				channels=[L2_BOOK, TRADES], 
+				pairs=subscriptions['okex'], 
+				callbacks={
+					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
+					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
+			
 		if "binance" in subscriptions.keys():
 			f.add_feed(Binance(
 				channels=[L2_BOOK, TRADES], 
