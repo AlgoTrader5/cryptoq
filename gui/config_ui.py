@@ -10,7 +10,7 @@ def main():
     
     app = QtWidgets.QApplication([])
 
-    win = MainWindow(port=args.port, config=args.config)
+    win = MainWindow(config=args.config)
     win.resize(1000, 500)
     win.show()
 
