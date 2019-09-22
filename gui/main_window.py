@@ -24,7 +24,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.central_widget = None
         self.exchange_window = None
         self.contracts_window = None
-        self.strategy_window = None
 
         self._client_dict = {
             'binance': gen_pairs(BINANCE),
@@ -45,14 +44,11 @@ class MainWindow(QtWidgets.QMainWindow):
         }
 
         self._subscription_dict = self._read_config(config)
-        # self._strategy_dict = self._read_config('D:\\Apps\\Romer\\conf\\config_client.yaml')
-
         
         # 1. set up gui windows
         self.setGeometry(50, 50, 600, 400)
         self.setWindowTitle('ConfigUI')
         self.init_menu()
-        # self.init_status_bar()
         self.init_central_area()
 
 
@@ -74,14 +70,7 @@ class MainWindow(QtWidgets.QMainWindow):
         return subscriptions
 
     def _save_config(self, file_path):
-        subscriptions = None
-        try:
-            with open(file_path, encoding='utf8') as fd:
-                subscriptions = yaml.safe_load(fd)
-        except IOError:
-            print(f"{file_path} is missing")
-
-        return subscriptions
+        return
 
 
     #################################################################################################
@@ -131,9 +120,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # -------------------------------- bottom Left ------------------------------------------#
         tab_widget = QtWidgets.QTabWidget()
         tab1 = QtWidgets.QWidget()          # contract
-        tab2 = QtWidgets.QWidget()          # strategy
         tab_widget.addTab(tab1, 'Contract')
-        tab_widget.addTab(tab2, 'Strategy')
 
         # --------------------------------  CONTRACT TAB ------------------------------------------#
         self.contract_tab = ContractsTab(self._client_dict, self._subscription_dict)
@@ -141,11 +128,6 @@ class MainWindow(QtWidgets.QMainWindow):
         contract_tab_layout.addWidget(self.contract_tab)
         tab1.setLayout(contract_tab_layout)
 
-        # --------------------------------  STRATEGY TAB ------------------------------------------#
-        # self.strategy_config_window = StrategyConfigWindow(self.db_client)
-        tab2_layout = QtWidgets.QVBoxLayout()
-        # tab2_layout.addWidget(self.strategy_config_window)
-        tab2.setLayout(tab2_layout)
 
         hbox.addWidget(tab_widget)
         self.central_widget.setLayout(hbox)
