@@ -5,7 +5,6 @@ from main_window import MainWindow
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--port", type=int, default=5002, help='QConnection port')
     parser.add_argument("--config", type=str, help='subscriptions config yaml file')
     args = parser.parse_args()
     
