@@ -9,24 +9,16 @@ from datetime import datetime
 from decimal import Decimal
 from pprint import pprint
 
-from qpython import qconnection
-from qpython.qtype import QException
-
 from queue import Queue, Empty
 from PyQt5 import QtCore, QtWidgets, QtGui
 
 from contracts_tab import ContractsTab
-from cryptofeed.defines import BITSTAMP, BITFINEX, COINBASE, GEMINI, HITBTC, POLONIEX, KRAKEN, BINANCE, EXX, HUOBI, HUOBI_US, OKCOIN, OKEX, COINBENE, BYBIT
+from cryptofeed.defines import BITSTAMP, BITFINEX, COINBASE, FTX, GEMINI, HITBTC, POLONIEX, KRAKEN, BINANCE, EXX, HUOBI, HUOBI_US, OKCOIN, OKEX, COINBENE, BYBIT
 from cryptofeed.pairs import gen_pairs
 
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, port, config):
         super(MainWindow, self).__init__()
-
-        # create connection object
-        self.q = qconnection.QConnection(host='localhost', port=port, pandas=True)
-        # initialize connection
-        self.q.open()
 
         # windows
         self.central_widget = None
@@ -34,22 +26,22 @@ class MainWindow(QtWidgets.QMainWindow):
         self.contracts_window = None
         self.strategy_window = None
 
-
         self._client_dict = {
-            'coinbase': gen_pairs(COINBASE),
-            'kraken': gen_pairs(KRAKEN),
-            'poloniex': gen_pairs(POLONIEX),
             'binance': gen_pairs(BINANCE),
-            'bitstamp': gen_pairs(BITSTAMP),
             'bitfinex': gen_pairs(BITFINEX),
+            'bitstamp': gen_pairs(BITSTAMP),
+            'bybit': gen_pairs(BYBIT),
+            'coinbase': gen_pairs(COINBASE),
+            'coinbene': gen_pairs(COINBENE),
+            'exx': gen_pairs(EXX),
+            'ftx': gen_pairs(FTX),
             'gemini': gen_pairs(GEMINI),
             'hitbtc': gen_pairs(HITBTC),
-            'exx': gen_pairs(EXX),
             'huobi': gen_pairs(HUOBI),
+            'kraken': gen_pairs(KRAKEN),
             'okcoin': gen_pairs(OKCOIN),
             'okex': gen_pairs(OKEX),
-            'coinbene': gen_pairs(COINBENE),
-            'bybit': gen_pairs(BYBIT)
+            'poloniex': gen_pairs(POLONIEX)
         }
 
         self._subscription_dict = self._read_config(config)
