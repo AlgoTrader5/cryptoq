@@ -21,7 +21,9 @@ kraken:
     - LTC-USD
 ```
 Or you can use the config ui:
-![Screenshot](config_ui.png)
+<p align="center">
+  <img src="config_ui.png">
+</p>
 
 In the command prompt, first start q instance specifiying port and load.q file. This file will loads table schemas and functions to the q session.
 ```shell
