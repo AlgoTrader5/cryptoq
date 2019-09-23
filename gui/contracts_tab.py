@@ -11,9 +11,6 @@ class ContractsTab(QtWidgets.QWidget):
         self.markets = markets
         self.symbol_list = SymbolList(self.markets)
         self.subscriptions_list = SubscriptionsList(subscriptions)
-        
-
-        
         self.radio_buttons = []
         layout = QtWidgets.QHBoxLayout()
         layout.addWidget(self.create_radio_box_group())
@@ -69,7 +66,6 @@ class ContractsTab(QtWidgets.QWidget):
             vbox.addWidget(b)
         
         vbox.addStretch(1)
-
         group_box = QtWidgets.QGroupBox()
         group_box.setLayout(vbox)
         return group_box
