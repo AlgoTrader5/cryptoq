@@ -6,7 +6,7 @@ Requirements:
 * 32-bit or 64-bit version of kdb+ https://kx.com/connect-with-us/download/
 * qpython (python library to interact with q)
 * pyzmq
-* cryptofeed (python library to stream cryptocurrency market data) https://github.com/bmoscon/cryptofeed
+* [cryptofeed](https://github.com/bmoscon/cryptofeed) (python library to stream cryptocurrency market data) https://github.com/bmoscon/cryptofeed
 * ccxt (cryptocurrency library to request reference data)
 
 # Getting Started
