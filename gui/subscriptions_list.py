@@ -20,10 +20,6 @@ class SubscriptionsList(QtWidgets.QTableWidget):
 		print('index:', index, index.row())
 
 	def init_table(self):
-		# drag and drop funcionality
-		# self.setAcceptDrops(True)
-		# self.setDragDropOverwriteMode(False)
-
 		self.headers = ['sym','quote','base','exchange']
 		self.setColumnCount(len(self.headers))
 		self.setHorizontalHeaderLabels(self.headers)
@@ -39,3 +35,8 @@ class SubscriptionsList(QtWidgets.QTableWidget):
 				self.setItem(0, 2, QtWidgets.QTableWidgetItem(sym.split("-")[1]))
 				self.setItem(0, 3, QtWidgets.QTableWidgetItem(exch))
 		self.resizeColumnsToContents()
+        
+    def clear_table(self):
+        self.clear()
+        self.setRowCount(0)
+        self.setHorizontalHeaderLabels(self.headers)
