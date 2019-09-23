@@ -1,13 +1,13 @@
 # cryptoq
-stores streaming trade and quote data from cryptofeed to kdb
+stores streaming trade and quote data from cryptofeed to kdb+
 
 Requirements:
 * python>=3.6
 * 32-bit or 64-bit version of kdb+ https://kx.com/connect-with-us/download/
-* qpython (python library to interact with q)
-* pyzmq
-* [cryptofeed](https://github.com/bmoscon/cryptofeed) (python library to stream cryptocurrency market data) https://github.com/bmoscon/cryptofeed
-* ccxt (cryptocurrency library to request reference data)
+* [qpython](https://github.com/exxeleron/qPython.git) qpython (python library to interact with q)
+* [pyzmq](https://github.com/zeromq/pyzmq.git)
+* [cryptofeed](https://github.com/bmoscon/cryptofeed) (stream cryptocurrency market data)
+* [ccxt](https://github.com/ccxt/ccxt) (reference data)
 
 # Getting Started
 Configure the conf/subscriptions.yaml config file with exchange as key and list of products as value. You can use the pre-existing file out of the box.
@@ -21,6 +21,9 @@ kraken:
     - LTC-USD
 ```
 Or you can use the config ui:
+```shell
+start_config_ui.bat
+```
 <p align="center">
   <img src="config_ui.PNG">
 </p>
