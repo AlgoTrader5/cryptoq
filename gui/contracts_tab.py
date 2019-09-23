@@ -25,6 +25,7 @@ class ContractsTab(QtWidgets.QWidget):
 
     def on_clear_clicked(self, i):
         print('on clear', i)
+        self.subscriptions_list.clear_table()
 
     def on_load_clicked(self, i):
         print('on load', i)
