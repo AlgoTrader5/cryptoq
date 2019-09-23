@@ -11,23 +11,51 @@ class ContractsTab(QtWidgets.QWidget):
         self.markets = markets
         self.symbol_list = SymbolList(self.markets)
         self.subscriptions_list = SubscriptionsList(subscriptions)
-        self.add_btn = QtWidgets.QPushButton("add")
-        self.add_btn.clicked.connect(self.on_click)
+        
+
         
         self.radio_buttons = []
         layout = QtWidgets.QHBoxLayout()
-        layout.addWidget(self.create_box_group())
+        layout.addWidget(self.create_radio_box_group())
         layout.addWidget(self.symbol_list)
-        layout.addWidget(self.add_btn)
+        layout.addWidget(self.create_button_box_group())
         layout.addWidget(self.subscriptions_list)
         self.setLayout(layout)
 
 
-    def on_click(self, i):
-        print('on click', i)
+    def on_add_clicked(self, i):
+        print('on add', i)
+
+    def on_clear_clicked(self, i):
+        print('on clear', i)
+
+    def on_load_clicked(self, i):
+        print('on clear', i)
+
+
+    def create_button_box_group(self):
+        '''
+        create box group containing push buttons 
+        '''
+        self.add_btn = QtWidgets.QPushButton("add")
+        self.add_btn.clicked.connect(self.on_add_clicked)
+        self.clear_btn = QtWidgets.QPushButton("clear")
+        self.clear_btn.clicked.connect(self.on_clear_clicked)
+        self.load_btn = QtWidgets.QPushButton("load")
+        self.load_btn.clicked.connect(self.on_load_clicked)
+        
+        vbox = QtWidgets.QVBoxLayout()
+        vbox.addWidget(self.add_btn)
+        vbox.addWidget(self.clear_btn)
+        vbox.addWidget(self.load_btn)
+        vbox.addStretch(1)
+
+        group_box = QtWidgets.QGroupBox()
+        group_box.setLayout(vbox)
+        return group_box
     
 
-    def create_box_group(self):
+    def create_radio_box_group(self):
         '''
         create box group containing radio buttons 
         for each exchange
