@@ -21,7 +21,7 @@ kraken:
     - LTC-USD
 ```
 Or you can use the config ui:
-![Alt text](config_ui.png?raw=true "Title")
+![Alt text](config_ui.png)
 
 In the command prompt, first start q instance specifiying port and load.q file. This file will loads table schemas and functions to the q session.
 ```shell
