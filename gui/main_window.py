@@ -120,18 +120,16 @@ class MainWindow(QtWidgets.QMainWindow):
         self.central_widget = QtWidgets.QWidget()
         hbox = QtWidgets.QHBoxLayout()
         
-        # -------------------------------- bottom Left ------------------------------------------#
-        tab_widget = QtWidgets.QTabWidget()
-        tab1 = QtWidgets.QWidget()          # contract
-        tab_widget.addTab(tab1, 'Contract')
-
-        # --------------------------------  CONTRACT TAB ------------------------------------------#
+        # -------------------------------- main widget ------------------------------------------#
+        win = QtWidgets.QWidget()
+        
+        # --------------------------------  CONTRACT ------------------------------------------#
         self.contract_tab = ContractsTab(self.markets, self.config)
         contract_tab_layout = QtWidgets.QHBoxLayout()
         contract_tab_layout.addWidget(self.contract_tab)
-        tab1.setLayout(contract_tab_layout)
+        win.setLayout(contract_tab_layout)
         
-        hbox.addWidget(tab_widget)
+        hbox.addWidget(win)
         self.central_widget.setLayout(hbox)
         self.setCentralWidget(self.central_widget)
 
