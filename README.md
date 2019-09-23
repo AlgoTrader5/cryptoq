@@ -22,7 +22,7 @@ kraken:
 ```
 Or you can use the config ui:
 <p align="center">
-  <img src="config_ui.png">
+  <img src="config_ui.PNG">
 </p>
 
 In the command prompt, first start q instance specifiying port and load.q file. This file will loads table schemas and functions to the q session.
