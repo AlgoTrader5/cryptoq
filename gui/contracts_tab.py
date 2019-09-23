@@ -30,7 +30,7 @@ class ContractsTab(QtWidgets.QWidget):
         print('on clear', i)
 
     def on_load_clicked(self, i):
-        print('on clear', i)
+        print('on load', i)
 
 
     def create_button_box_group(self):
