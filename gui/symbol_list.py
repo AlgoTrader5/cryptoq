@@ -3,54 +3,40 @@
 from PyQt5 import QtCore, QtWidgets, QtGui
 
 
-class SymbolList(QtWidgets.QTableWidget):
-    select_exchange = QtCore.pyqtSignal(str)
+class SubscriptionsList(QtWidgets.QTableWidget):
+    contract_signal = QtCore.pyqtSignal(object)
 
-    def __init__(self, clients, parent=None):
-        super(SymbolList, self).__init__(parent)
-        self.clients = clients
+    def __init__(self, subscriptions, parent=None):
+        super(SubscriptionsList, self).__init__(parent)
+        self.subscriptions = subscriptions
         self.init_table()
-        self.select_exchange.connect(self.change_symbols)
-
 
     def on_item_clicked(self, item):
         print(item.text())
+        # self.contract_signal.emit()
 
+    def dropEvent(self, event):
+        index = self.indexAt(event.pos())
+        print('index:', index, index.row())
 
     def init_table(self):
-        # drag and drop funcionality
-        # self.setDragEnabled(True)
-        # self.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
-        # self.setDragDropOverwriteMode(False)
-        # self.setDragDropOverwriteMode(False)
-        # self.last_drop_row = None
-        
         self.headers = ['sym','quote','base','exchange']
         self.setColumnCount(len(self.headers))
         self.setHorizontalHeaderLabels(self.headers)
+        self.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Fixed)
         self.verticalHeader().setVisible(False)
         self.setSortingEnabled(True)
-
-        exch = 'coinbase'
-        syms = self.clients[exch]
-        for sym in syms:
-            self.insertRow(0)
-            self.setItem(0, 0, QtWidgets.QTableWidgetItem(sym))
-            self.setItem(0, 1, QtWidgets.QTableWidgetItem(sym.split("-")[0]))
-            self.setItem(0, 2, QtWidgets.QTableWidgetItem(sym.split("-")[1]))
-            self.setItem(0, 3, QtWidgets.QTableWidgetItem(exch))
+        
+        for exch, contracts in self.subscriptions.items():
+            for sym in contracts:
+                self.insertRow(0)
+                self.setItem(0, 0, QtWidgets.QTableWidgetItem(sym))
+                self.setItem(0, 1, QtWidgets.QTableWidgetItem(sym.split("-")[0]))
+                self.setItem(0, 2, QtWidgets.QTableWidgetItem(sym.split("-")[1]))
+                self.setItem(0, 3, QtWidgets.QTableWidgetItem(exch))
         self.resizeColumnsToContents()
-
-
-    def change_symbols(self, exch):
+        
+    def clear_table(self):
         self.clear()
         self.setRowCount(0)
         self.setHorizontalHeaderLabels(self.headers)
-        syms = self.clients[exch]
-        for sym in syms:
-            self.insertRow(0)
-            self.setItem(0, 0, QtWidgets.QTableWidgetItem(sym))
-            self.setItem(0, 1, QtWidgets.QTableWidgetItem(sym.split("-")[0]))
-            self.setItem(0, 2, QtWidgets.QTableWidgetItem(sym.split("-")[1]))
-            self.setItem(0, 3, QtWidgets.QTableWidgetItem(exch))
-        self.resizeColumnsToContents()
