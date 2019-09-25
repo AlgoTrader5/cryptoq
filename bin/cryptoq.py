@@ -37,7 +37,7 @@ GUIPORT = args.guiport
 q = qconnection.QConnection(host='localhost', port=PORT, pandas=True)
 # initialize connection
 q.open()
-q.sendSync('show connected')
+q.sendSync('show cryptoq connected to kdb+')
 
 def receiver(port):
 	ctx = zmq.Context.instance()
@@ -243,7 +243,7 @@ def main():
 		print(f"saving to disk quotes -> {quotes_path} trades -> {trades_path}")
 		q.sendSync(trades_path)
 		q.sendSync(quotes_path)
-		q.sendSync('show closing stream to kdb+'
+		q.sendSync('show cryptoq closing connection to kdb+')
 		q.close()
 
 
