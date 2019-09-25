@@ -39,7 +39,7 @@ q = qconnection.QConnection(host='localhost', port=PORT, pandas=True)
 q.open()
 
 # create quotes table in kdb+
-q.sendSync(load_quote_schema(DEPTH), param=None)
+q.sendSync(load_quote_schema(DEPTH))
 
 def receiver(port):
 	ctx = zmq.Context.instance()
