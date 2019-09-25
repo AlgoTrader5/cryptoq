@@ -2,7 +2,7 @@ import yaml
 import json
 from datetime import datetime
 
-def read_cfg(fn):    
+def read_cfg(fn: str) -> dict:    
     cfg = None
     with open(fn, 'r') as f:
         try:
@@ -12,7 +12,7 @@ def read_cfg(fn):
             print(e)
     return cfg
 
-def trade_convert(data):
+def trade_convert(data: str) -> str:
     data = data.split(" ", 1)[1]
     data = json.loads(data)
     hwt = str(datetime.utcnow().isoformat()).replace("T","D").replace("-",".")
@@ -35,7 +35,7 @@ def trade_convert(data):
             f"`float${price};`$\"{trade_id}\")"
 
 
-def book_convert(data, depth):
+def book_convert(data: str, depth: int) -> str:
     data = data.split(" ", 1)[1]
     data = json.loads(data)
     hwt = str(datetime.utcnow().isoformat()).replace("T","D").replace("-",".")
