@@ -13,6 +13,24 @@ def read_cfg(fn: str) -> dict:
     return cfg
 
 
+def load_quote_schema(depth: int) -> str:
+    qStr = "quotes:([]" \
+            "utc_datetime:`timestamp$();exch_datetime:`timestamp$();" \
+            "exch:`symbol$();sym:`symbol$()"
+    if depth > 1:
+        for i in range(depth):
+            if i == 0:
+                qStr += ";bsize:`float$();bid:`float$();ask:`float$();asize:`float$()"
+            else:
+                qStr += f";bsize{i}:`float$();bid{i}:"
+                qStr += f"`float$();ask{i}:`float$();asize{i}:`float$()"
+        qStr += ")"
+    else:
+        qStr += ";bsize:`float$();bid:`float$();ask:`float$();asize:`float$())"
+
+    return qStr
+
+
 def trade_convert(data: str) -> str:
     data = data.split(" ", 1)[1]
     data = json.loads(data)
