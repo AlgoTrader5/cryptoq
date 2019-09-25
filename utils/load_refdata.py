@@ -66,8 +66,8 @@ if __name__ == '__main__':
 
     # Consider review request rate limit in the methods you call
     exchanges = [
-        "coinex", "bitmex", "bittrex", "bitfinex", "poloniex", "hitbtc", 
-        "coinbasepro", "kraken", "binance", "bitstamp", "gemini",
+        "bitmex", "bittrex", "bitfinex", "bitstamp", "binance",
+        "poloniex", "hitbtc", "coinbasepro", "kraken", "gemini",
         "okex", "exx"
     ]
 
@@ -83,5 +83,6 @@ if __name__ == '__main__':
             for sym, ref in refdata.items():
                 insert_data(exchange, sym, ref)
     
-    
+    q.sendSync("show `sym xdesc select count sym by exch from refdata")
+    q.close()
 
