@@ -15,7 +15,7 @@ from cryptofeed.exchanges import (Binance, Bitmex, Bitfinex, Bittrex, Bitstamp, 
                                   KrakenFutures, OKCoin, OKEx, Poloniex)
 
 
-from utils import read_cfg, trade_convert, book_convert
+from utils.utils import read_cfg, trade_convert, book_convert
 
 
 parser = argparse.ArgumentParser()
@@ -37,7 +37,6 @@ GUIPORT = args.guiport
 q = qconnection.QConnection(host='localhost', port=PORT, pandas=True)
 # initialize connection
 q.open()
-q.sendSync('show cryptoq connected to kdb+')
 
 def receiver(port):
 	ctx = zmq.Context.instance()
