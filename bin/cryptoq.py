@@ -7,10 +7,12 @@ from multiprocessing import Process
 from qpython import qconnection
 from qpython.qtype import QException
 
-from cryptofeed.backends.zmq import BookZMQ, TradeZMQ
 from cryptofeed import FeedHandler
-from cryptofeed.exchanges import Coinbase, Kraken, KrakenFutures, Binance, Poloniex, Bitfinex, Bitstamp, Gemini
+from cryptofeed.backends.zmq import BookZMQ, TradeZMQ
 from cryptofeed.defines import TRADES, L2_BOOK
+from cryptofeed.exchanges import (Binance, Bitmex, Bitfinex, Bittrex, Bitstamp, Bybit, 
+                                  Coinbase, Coinbene, Deribit, EXX, FTX, Gemini, Kraken, 
+                                  KrakenFutures, OKCoin, OKEx, Poloniex)
 
 
 from utils import read_cfg, trade_convert, book_convert
@@ -35,7 +37,7 @@ GUIPORT = args.guiport
 q = qconnection.QConnection(host='localhost', port=PORT, pandas=True)
 # initialize connection
 q.open()
-
+q.sendSync('show connected')
 
 def receiver(port):
 	ctx = zmq.Context.instance()
@@ -70,11 +72,111 @@ def main():
 		p.start()
 
 		f = FeedHandler()
+		
+		
+		if "binance" in subscriptions.keys():
+			f.add_feed(Binance(
+				channels=[L2_BOOK, TRADES], 
+				pairs=subscriptions['binance'], 
+				callbacks={
+					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
+					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
+            
+            
+		if "bitmex" in subscriptions.keys():
+			f.add_feed(Bitmex(
+				channels=[L2_BOOK, TRADES], 
+				pairs=subscriptions['bitmex'], 
+				callbacks={
+					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
+					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
+			
+            
+		if "bitfinex" in subscriptions.keys():
+			f.add_feed(Bitfinex(
+				channels=[L2_BOOK, TRADES], 
+				pairs=subscriptions['bitfinex'], 
+				callbacks={
+					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
+					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
+            
+            
+		if "bittrex" in subscriptions.keys():
+			f.add_feed(Bitrex(
+				channels=[L2_BOOK, TRADES], 
+				pairs=subscriptions['bittrex'], 
+				callbacks={
+					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
+					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
+		
+		
+		if "bitstamp" in subscriptions.keys():
+			f.add_feed(Bitstamp(
+				channels=[L2_BOOK, TRADES], 
+				pairs=subscriptions['bitstamp'], 
+				callbacks={
+					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
+					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
+            
+            
+		if "bybit" in subscriptions.keys():
+			f.add_feed(Bybit(
+				channels=[L2_BOOK, TRADES], 
+				pairs=subscriptions['bybit'], 
+				callbacks={
+					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
+					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
 
+            
 		if "coinbase" in subscriptions.keys():
 			f.add_feed(Coinbase(
 				channels=[L2_BOOK, TRADES], 
 				pairs=subscriptions['coinbase'], 
+				callbacks={
+					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
+					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
+            
+            
+		if "coinbene" in subscriptions.keys():
+			f.add_feed(Coinbene(
+				channels=[L2_BOOK, TRADES], 
+				pairs=subscriptions['coinbene'], 
+				callbacks={
+					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
+					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
+            
+            
+		if "deribit" in subscriptions.keys():
+			f.add_feed(Deribit(
+				channels=[L2_BOOK, TRADES], 
+				pairs=subscriptions['deribit'], 
+				callbacks={
+					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
+					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
+            
+            
+		if "exx" in subscriptions.keys():
+			f.add_feed(EXX(
+				channels=[L2_BOOK, TRADES], 
+				pairs=subscriptions['exx'], 
+				callbacks={
+					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
+					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
+            
+            
+		if "ftx" in subscriptions.keys():
+			f.add_feed(FTX(
+				channels=[L2_BOOK, TRADES], 
+				pairs=subscriptions['ftx'], 
+				callbacks={
+					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
+					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
+            
+            
+		if "gemini" in subscriptions.keys():
+			f.add_feed(Gemini(
+				channels=[L2_BOOK, TRADES], 
+				pairs=subscriptions['gemini'], 
 				callbacks={
 					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
 					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
@@ -97,13 +199,6 @@ def main():
 					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
 					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
 		
-		if "ftx" in subscriptions.keys():
-			f.add_feed(FTX(
-				channels=[L2_BOOK, TRADES], 
-				pairs=subscriptions['ftx'], 
-				callbacks={
-					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
-					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
 
 		if "okcoin" in subscriptions.keys():
 			f.add_feed(OKCoin(
@@ -121,14 +216,6 @@ def main():
 				callbacks={
 					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
 					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
-			
-		if "binance" in subscriptions.keys():
-			f.add_feed(Binance(
-				channels=[L2_BOOK, TRADES], 
-				pairs=subscriptions['binance'], 
-				callbacks={
-					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
-					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
 		
 		
 		if "poloniex" in subscriptions.keys():
@@ -139,32 +226,6 @@ def main():
 					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
 					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
 		
-		
-		if "bitfinex" in subscriptions.keys():
-			f.add_feed(Bitfinex(
-				channels=[L2_BOOK, TRADES], 
-				pairs=subscriptions['bitfinex'], 
-				callbacks={
-					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
-					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
-		
-		
-		if "bitstamp" in subscriptions.keys():
-			f.add_feed(Bitstamp(
-				channels=[L2_BOOK, TRADES], 
-				pairs=subscriptions['bitstamp'], 
-				callbacks={
-					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
-					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
-		
-		
-		if "gemini" in subscriptions.keys():
-			f.add_feed(Gemini(
-				channels=[L2_BOOK, TRADES], 
-				pairs=subscriptions['gemini'], 
-				callbacks={
-					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
-					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
 
 		f.run()
 
@@ -182,6 +243,7 @@ def main():
 		print(f"saving to disk quotes -> {quotes_path} trades -> {trades_path}")
 		q.sendSync(trades_path)
 		q.sendSync(quotes_path)
+		q.sendSync('show closing stream to kdb+'
 		q.close()
 
 
