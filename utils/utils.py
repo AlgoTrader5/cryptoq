@@ -12,6 +12,7 @@ def read_cfg(fn: str) -> dict:
             print(e)
     return cfg
 
+
 def trade_convert(data: str) -> str:
     data = data.split(" ", 1)[1]
     data = json.loads(data)
@@ -39,14 +40,28 @@ def book_convert(data: str, depth: int) -> str:
     data = data.split(" ", 1)[1]
     data = json.loads(data)
     hwt = str(datetime.utcnow().isoformat()).replace("T","D").replace("-",".")
+
     if isinstance(data['data']['timestamp'], str):
         ts = str(datetime.fromtimestamp(int(data['data']['timestamp'])).isoformat()).replace("T","D").replace("-",".")
     else:
         ts = str(datetime.fromtimestamp(data['data']['timestamp']).isoformat()).replace("T","D").replace("-",".")
-    bid_price = list(data['data']['bid'])[0]
-    bid_size = float(data['data']['bid'][bid_price])
-    ask_price = list(data['data']['ask'])[0]
-    ask_size = float(data['data']['ask'][ask_price])
-    return f"`quotes insert (`timestamp${hwt};`timestamp${ts};" \
-            f"`{data['feed']};`$\"{data['pair']}\";`float${bid_size};" \
-            f"`float${bid_price};`float${ask_price};`float${ask_size})"
+
+    qStr = f"`quotes insert (`timestamp${hwt};`timestamp${ts};" \
+            f"`{data['feed']};`$\"{data['pair']}\""
+    if depth == 1:
+        bid_price = list(data['data']['bid'])[0]
+        bid_size = float(data['data']['bid'][bid_price])
+        ask_price = list(data['data']['ask'])[0]
+        ask_size = float(data['data']['ask'][ask_price])
+        qStr += f";`float${bid_size};`float${bid_price};`float${ask_price};`float${ask_size})"
+    else:
+        for i in range(depth):
+            bid_price = list(data['data']['bid'])[i]
+            bid_size = float(data['data']['bid'][bid_price])
+            ask_price = list(data['data']['ask'])[i]
+            ask_size = float(data['data']['ask'][ask_price])
+            qStr += f";`float${bid_size};`float${bid_price}"
+            qStr += f";`float${ask_price};`float${ask_size}"
+
+        qStr += ")"
+    return qStr
