@@ -17,12 +17,3 @@ trades:([]
 	price:`float$();
 	tradeid:`symbol$());
 
-quotes:([]
-	utc_datetime:`timestamp$();
-	exch_datetime:`timestamp$();
-	exch:`symbol$();
-	sym:`symbol$();
-	bsize:`float$();
-	bid:`float$();
-	ask:`float$();
-	asize:`float$())
