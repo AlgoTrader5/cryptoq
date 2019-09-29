@@ -23,14 +23,17 @@ parser.add_argument("--q-port", dest="port", type=int, default=5002, help='QConn
 parser.add_argument("--kdb-port", dest="kdbport", type=int, default=5555, help='ZMQ port for kdb+ capture')
 parser.add_argument("--gui-port", dest="guiport", type=int, default=5556, help='ZMQ port for gui')
 parser.add_argument("--config", type=str, default='conf\\subscriptions.yaml', help='path to the config file')
-parser.add_argument("--depth", type=int, default=1, help='Order Book depth')
+parser.add_argument("--kdb-depth", dest="kdbdepth", type=int, default=5, help='Order Book depth for kdb+')
+parser.add_argument("--gui-depth", dest="guidepth", type=int, default=1, help='Order Book depth for gui')
 args = parser.parse_args()
 
 PORT = args.port
 DEPTH = args.depth
 CONFIG = args.config
 KDBPORT = args.kdbport
+KDBDEPTH = args.kdbdepth
 GUIPORT = args.guiport
+GUIDEPTH = args.guidepth
 
 
 # create connection object
@@ -39,7 +42,7 @@ q = qconnection.QConnection(host='localhost', port=PORT, pandas=True)
 q.open()
 
 # create quotes table in kdb+
-q.sendSync(load_quote_schema(DEPTH))
+q.sendSync(load_quote_schema(KDBDEPTH))
 
 def receiver(port):
 	ctx = zmq.Context.instance()
@@ -51,7 +54,7 @@ def receiver(port):
 		data = s.recv_string()
 		
 		if data[0] == "b":
-			qStr = book_convert(data, DEPTH)
+			qStr = book_convert(data, KDBDEPTH)
 		elif data[0] == "t":
 			qStr = trade_convert(data)
 		else:
@@ -63,7 +66,11 @@ def receiver(port):
 
 
 def main():
-	print(f'q connection port: {PORT}\nkdb (zmq) port: {KDBPORT}\ngui (zmq) port: {GUIPORT}\ndepth: {DEPTH}\nconfig: {CONFIG}')
+	print(f"q connection port: {PORT}\n" \
+            f"kdb (zmq) port: {KDBPORT} gui (zmq) port: {GUIPORT}\n" \
+            f"kdb depth: {KDBDEPTH} gui depth: {GUIDEPTH}\n" \
+            f"config: {CONFIG}")
+    
 	print(f"IPC version: {q.protocol_version}. Is connected: {q.is_connected()}")
 	
 	subscriptions = read_cfg(CONFIG)
@@ -82,7 +89,7 @@ def main():
 				pairs=subscriptions['binance'], 
 				callbacks={
 					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
-					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
+					L2_BOOK: [BookZMQ(depth=KDBDEPTH, port=KDBPORT), BookZMQ(depth=GUIDEPTH, port=GUIPORT)]}))
             
             
 		if "bitmex" in subscriptions.keys():
@@ -91,7 +98,7 @@ def main():
 				pairs=subscriptions['bitmex'], 
 				callbacks={
 					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
-					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
+					L2_BOOK: [BookZMQ(depth=KDBDEPTH, port=KDBPORT), BookZMQ(depth=GUIDEPTH, port=GUIPORT)]}))
 			
             
 		if "bitfinex" in subscriptions.keys():
@@ -100,7 +107,7 @@ def main():
 				pairs=subscriptions['bitfinex'], 
 				callbacks={
 					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
-					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
+					L2_BOOK: [BookZMQ(depth=KDBDEPTH, port=KDBPORT), BookZMQ(depth=GUIDEPTH, port=GUIPORT)]}))
             
             
 		if "bittrex" in subscriptions.keys():
@@ -109,7 +116,7 @@ def main():
 				pairs=subscriptions['bittrex'], 
 				callbacks={
 					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
-					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
+					L2_BOOK: [BookZMQ(depth=KDBDEPTH, port=KDBPORT), BookZMQ(depth=GUIDEPTH, port=GUIPORT)]}))
 		
 		
 		if "bitstamp" in subscriptions.keys():
@@ -118,7 +125,7 @@ def main():
 				pairs=subscriptions['bitstamp'], 
 				callbacks={
 					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
-					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
+					L2_BOOK: [BookZMQ(depth=KDBDEPTH, port=KDBPORT), BookZMQ(depth=GUIDEPTH, port=GUIPORT)]}))
             
             
 		if "bybit" in subscriptions.keys():
@@ -127,7 +134,7 @@ def main():
 				pairs=subscriptions['bybit'], 
 				callbacks={
 					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
-					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
+					L2_BOOK: [BookZMQ(depth=KDBDEPTH, port=KDBPORT), BookZMQ(depth=GUIDEPTH, port=GUIPORT)]}))
 
             
 		if "coinbase" in subscriptions.keys():
@@ -136,7 +143,7 @@ def main():
 				pairs=subscriptions['coinbase'], 
 				callbacks={
 					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
-					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
+					L2_BOOK: [BookZMQ(depth=KDBDEPTH, port=KDBPORT), BookZMQ(depth=GUIDEPTH, port=GUIPORT)]}))
             
             
 		if "coinbene" in subscriptions.keys():
@@ -145,7 +152,7 @@ def main():
 				pairs=subscriptions['coinbene'], 
 				callbacks={
 					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
-					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
+					L2_BOOK: [BookZMQ(depth=KDBDEPTH, port=KDBPORT), BookZMQ(depth=GUIDEPTH, port=GUIPORT)]}))
             
             
 		if "deribit" in subscriptions.keys():
@@ -154,7 +161,7 @@ def main():
 				pairs=subscriptions['deribit'], 
 				callbacks={
 					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
-					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
+					L2_BOOK: [BookZMQ(depth=KDBDEPTH, port=KDBPORT), BookZMQ(depth=GUIDEPTH, port=GUIPORT)]}))
             
             
 		if "exx" in subscriptions.keys():
@@ -163,7 +170,7 @@ def main():
 				pairs=subscriptions['exx'], 
 				callbacks={
 					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
-					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
+					L2_BOOK: [BookZMQ(depth=KDBDEPTH, port=KDBPORT), BookZMQ(depth=GUIDEPTH, port=GUIPORT)]}))
             
             
 		if "ftx" in subscriptions.keys():
@@ -172,7 +179,7 @@ def main():
 				pairs=subscriptions['ftx'], 
 				callbacks={
 					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
-					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
+					L2_BOOK: [BookZMQ(depth=KDBDEPTH, port=KDBPORT), BookZMQ(depth=GUIDEPTH, port=GUIPORT)]}))
             
             
 		if "gemini" in subscriptions.keys():
@@ -181,7 +188,7 @@ def main():
 				pairs=subscriptions['gemini'], 
 				callbacks={
 					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
-					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
+					L2_BOOK: [BookZMQ(depth=KDBDEPTH, port=KDBPORT), BookZMQ(depth=GUIDEPTH, port=GUIPORT)]}))
 		
 		
 		if "kraken" in subscriptions.keys():
@@ -190,7 +197,7 @@ def main():
 				pairs=subscriptions['kraken'], 
 				callbacks={
 					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
-					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
+					L2_BOOK: [BookZMQ(depth=KDBDEPTH, port=KDBPORT), BookZMQ(depth=GUIDEPTH, port=GUIPORT)]}))
 		
 		
 		if "kraken_futures" in subscriptions.keys():
@@ -199,7 +206,7 @@ def main():
 				pairs=subscriptions['kraken_futures'], 
 				callbacks={
 					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
-					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
+					L2_BOOK: [BookZMQ(depth=KDBDEPTH, port=KDBPORT), BookZMQ(depth=GUIDEPTH, port=GUIPORT)]}))
 		
 
 		if "okcoin" in subscriptions.keys():
@@ -208,7 +215,7 @@ def main():
 				pairs=subscriptions['okcoin'], 
 				callbacks={
 					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
-					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
+					L2_BOOK: [BookZMQ(depth=KDBDEPTH, port=KDBPORT), BookZMQ(depth=GUIDEPTH, port=GUIPORT)]}))
 		
 		
 		if "okex" in subscriptions.keys():
@@ -217,7 +224,7 @@ def main():
 				pairs=subscriptions['okex'], 
 				callbacks={
 					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
-					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
+					L2_BOOK: [BookZMQ(depth=KDBDEPTH, port=KDBPORT), BookZMQ(depth=GUIDEPTH, port=GUIPORT)]}))
 		
 		
 		if "poloniex" in subscriptions.keys():
@@ -226,7 +233,7 @@ def main():
 				pairs=subscriptions['poloniex'], 
 				callbacks={
 					TRADES: [TradeZMQ(port=KDBPORT), TradeZMQ(port=GUIPORT)],
-					L2_BOOK: [BookZMQ(depth=DEPTH, port=KDBPORT), BookZMQ(depth=DEPTH, port=GUIPORT)]}))
+					L2_BOOK: [BookZMQ(depth=KDBDEPTH, port=KDBPORT), BookZMQ(depth=GUIDEPTH, port=GUIPORT)]}))
 		
 
 		f.run()
