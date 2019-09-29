@@ -84,6 +84,7 @@ def main():
 		
 		if "binance" in subscriptions.keys():
 			f.add_feed(Binance(
+                max_depth=KDBDEPTH,
 				channels=[L2_BOOK, TRADES], 
 				pairs=subscriptions['binance'], 
 				callbacks={
@@ -93,6 +94,7 @@ def main():
             
 		if "bitmex" in subscriptions.keys():
 			f.add_feed(Bitmex(
+                max_depth=KDBDEPTH,
 				channels=[L2_BOOK, TRADES], 
 				pairs=subscriptions['bitmex'], 
 				callbacks={
@@ -102,6 +104,7 @@ def main():
             
 		if "bitfinex" in subscriptions.keys():
 			f.add_feed(Bitfinex(
+                max_depth=KDBDEPTH,
 				channels=[L2_BOOK, TRADES], 
 				pairs=subscriptions['bitfinex'], 
 				callbacks={
@@ -111,6 +114,7 @@ def main():
             
 		if "bittrex" in subscriptions.keys():
 			f.add_feed(Bitrex(
+                max_depth=KDBDEPTH,
 				channels=[L2_BOOK, TRADES], 
 				pairs=subscriptions['bittrex'], 
 				callbacks={
@@ -120,6 +124,7 @@ def main():
 		
 		if "bitstamp" in subscriptions.keys():
 			f.add_feed(Bitstamp(
+                max_depth=KDBDEPTH,
 				channels=[L2_BOOK, TRADES], 
 				pairs=subscriptions['bitstamp'], 
 				callbacks={
@@ -129,6 +134,7 @@ def main():
             
 		if "bybit" in subscriptions.keys():
 			f.add_feed(Bybit(
+                max_depth=KDBDEPTH,
 				channels=[L2_BOOK, TRADES], 
 				pairs=subscriptions['bybit'], 
 				callbacks={
@@ -138,6 +144,7 @@ def main():
             
 		if "coinbase" in subscriptions.keys():
 			f.add_feed(Coinbase(
+                max_depth=KDBDEPTH,
 				channels=[L2_BOOK, TRADES], 
 				pairs=subscriptions['coinbase'], 
 				callbacks={
@@ -147,6 +154,7 @@ def main():
             
 		if "coinbene" in subscriptions.keys():
 			f.add_feed(Coinbene(
+                max_depth=KDBDEPTH,
 				channels=[L2_BOOK, TRADES], 
 				pairs=subscriptions['coinbene'], 
 				callbacks={
@@ -156,6 +164,7 @@ def main():
             
 		if "deribit" in subscriptions.keys():
 			f.add_feed(Deribit(
+                max_depth=KDBDEPTH,
 				channels=[L2_BOOK, TRADES], 
 				pairs=subscriptions['deribit'], 
 				callbacks={
@@ -165,6 +174,7 @@ def main():
             
 		if "exx" in subscriptions.keys():
 			f.add_feed(EXX(
+                max_depth=KDBDEPTH,
 				channels=[L2_BOOK, TRADES], 
 				pairs=subscriptions['exx'], 
 				callbacks={
@@ -174,6 +184,7 @@ def main():
             
 		if "ftx" in subscriptions.keys():
 			f.add_feed(FTX(
+                max_depth=KDBDEPTH,
 				channels=[L2_BOOK, TRADES], 
 				pairs=subscriptions['ftx'], 
 				callbacks={
@@ -183,6 +194,7 @@ def main():
             
 		if "gemini" in subscriptions.keys():
 			f.add_feed(Gemini(
+                max_depth=KDBDEPTH,
 				channels=[L2_BOOK, TRADES], 
 				pairs=subscriptions['gemini'], 
 				callbacks={
@@ -201,6 +213,7 @@ def main():
 		
 		if "kraken_futures" in subscriptions.keys():
 			f.add_feed(KrakenFutures(
+                max_depth=KDBDEPTH,
 				channels=[L2_BOOK, TRADES], 
 				pairs=subscriptions['kraken_futures'], 
 				callbacks={
@@ -210,6 +223,7 @@ def main():
 
 		if "okcoin" in subscriptions.keys():
 			f.add_feed(OKCoin(
+                max_depth=KDBDEPTH,
 				channels=[L2_BOOK, TRADES], 
 				pairs=subscriptions['okcoin'], 
 				callbacks={
@@ -219,6 +233,7 @@ def main():
 		
 		if "okex" in subscriptions.keys():
 			f.add_feed(OKEx(
+                max_depth=KDBDEPTH,
 				channels=[L2_BOOK, TRADES], 
 				pairs=subscriptions['okex'], 
 				callbacks={
@@ -228,6 +243,7 @@ def main():
 		
 		if "poloniex" in subscriptions.keys():
 			f.add_feed(Poloniex(
+                max_depth=KDBDEPTH,
 				channels=[L2_BOOK, TRADES], 
 				pairs=subscriptions['poloniex'], 
 				callbacks={
