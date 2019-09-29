@@ -249,9 +249,6 @@ def main():
 		trades_path = f"`:{data_path}/trades set trades"
 		quotes_path = f"`:{data_path}/quotes set quotes"
 		print(f"saving to disk quotes -> {quotes_path} trades -> {trades_path}")
-		q.sendSync(trades_path)
-		q.sendSync(quotes_path)
-		q.sendSync('show cryptoq closing connection to kdb+')
 		q.close()
 
 
