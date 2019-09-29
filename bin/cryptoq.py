@@ -28,11 +28,10 @@ parser.add_argument("--gui-depth", dest="guidepth", type=int, default=1, help='O
 args = parser.parse_args()
 
 PORT = args.port
-DEPTH = args.depth
 CONFIG = args.config
 KDBPORT = args.kdbport
-KDBDEPTH = args.kdbdepth
 GUIPORT = args.guiport
+KDBDEPTH = args.kdbdepth
 GUIDEPTH = args.guidepth
 
 
