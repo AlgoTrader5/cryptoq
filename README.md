@@ -25,7 +25,7 @@ Or you can use the config ui:
 start_config_ui.bat
 ```
 <p align="center">
-  <img src="config_ui.PNG">
+  <img src="img/config_ui.PNG">
 </p>
 
 In the command prompt, first start q instance specifiying port and load.q file. This file will loads table schemas and functions to the q session.
@@ -68,7 +68,7 @@ utc_datetime                  exch_datetime                 exch     sym      si
 2019.07.17D22:03:32.061706000 2019.07.17D17:03:27.921000000 COINBASE LINK-USD buy  38.8       2.4657   581567 
 ```
 <p align="center">
-  <img src="kdb_quote_table.PNG">
+  <img src="img/kdb_quote_table.PNG">
 </p>
 
 
