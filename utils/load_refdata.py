@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
+import os
+import sys
+import time
+import argparse
+from pprint import pprint
 import asyncio
 import ccxt
 import ccxt.async_support as ccxta  # noqa: E402
-import time
-import os
-import sys
-import argparse
 from qpython import qconnection
 from qpython.qtype import QException
 
@@ -40,17 +41,24 @@ async def multi_tickers(exchanges):
 
 
 def insert_data(exch, sym, refdata):
+    if exch=='kraken' and '.d' in sym:
+        return
     try:
-        makerFee = refdata['maker'] if refdata['maker'] else 0.0
-        takerFee = refdata['taker'] if refdata['taker'] else 0.0
+        makerFee = refdata['maker'] if not isinstance(refdata['maker'], type(None)) else 0.0
+        takerFee = refdata['taker'] if not isinstance(refdata['taker'], type(None)) else 0.0
     except KeyError as e:
-        minTick = 0.0
-        minSize = 0.0
-        
+        makerFee = 0.0
+        takerFee = 0.0
+
+    try:
         minTick = refdata['limits']['price']['min'] \
                 if refdata['limits']['price']['min'] else 0.0
         minSize = refdata['limits']['amount']['min'] \
                 if refdata['limits']['amount']['min'] else 0.0
+    except KeyError as e:
+        minTick = 0.0
+        minSize = 0.0
+
 
     qStr = f"`refdata insert (`$\"{sym}\";`$\"{exch}\";" \
             f"`float${minTick};`float${minSize};" \
@@ -60,6 +68,8 @@ def insert_data(exch, sym, refdata):
         q.sendSync(qStr, param=None)
     except QException as e:
         print(f"Error executing query {qStr} against server. {e}")
+
+        
 
 
 def main():
