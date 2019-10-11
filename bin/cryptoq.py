@@ -19,10 +19,10 @@ from utils.utils import read_cfg, trade_convert, book_convert, load_quote_schema
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--q-port", dest="port", type=int, default=5002, help='QConnection port')
-parser.add_argument("--kdb-port", dest="kdbport", type=int, default=5555, help='ZMQ port for kdb+ capture')
-parser.add_argument("--gui-port", dest="guiport", type=int, default=5556, help='ZMQ port for gui')
-parser.add_argument("--config", type=str, default='conf\\subscriptions.yaml', help='path to the config file')
+parser.add_argument("--q-port",    dest="port",     type=int, default=5002, help='QConnection port')
+parser.add_argument("--kdb-port",  dest="kdbport",  type=int, default=5555, help='ZMQ port for kdb+ capture')
+parser.add_argument("--gui-port",  dest="guiport",  type=int, default=5556, help='ZMQ port for gui')
+parser.add_argument("--config",                     type=str, default='conf\\subscriptions.yaml', help='path to the config file')
 parser.add_argument("--kdb-depth", dest="kdbdepth", type=int, default=5, help='Order Book depth for kdb+')
 parser.add_argument("--gui-depth", dest="guidepth", type=int, default=1, help='Order Book depth for gui')
 args = parser.parse_args()
@@ -33,7 +33,6 @@ KDBPORT = args.kdbport
 GUIPORT = args.guiport
 KDBDEPTH = args.kdbdepth
 GUIDEPTH = args.guidepth
-
 
 # create connection object
 q = qconnection.QConnection(host='localhost', port=PORT, pandas=True)
@@ -51,7 +50,6 @@ def receiver(port):
 
 	while True:
 		data = s.recv_string()
-		
 		if data[0] == "b":
 			qStr = book_convert(data, KDBDEPTH)
 		elif data[0] == "t":
@@ -65,10 +63,12 @@ def receiver(port):
 
 
 def main():
-	print(f"q connection port: {PORT}\n" \
-            f"kdb (zmq) port: {KDBPORT} gui (zmq) port: {GUIPORT}\n" \
-            f"kdb depth: {KDBDEPTH} gui depth: {GUIDEPTH}\n" \
-            f"config: {CONFIG}")
+	print(f"q connection port: {PORT:<20}\n" \
+            f"kdb (zmq) port: {KDBPORT:<20}\n" \
+            f"gui (zmq) port: {GUIPORT:<20}\n" \
+            f"kdb depth: {KDBDEPTH:<20}\n" \
+            f"gui depth: {GUIDEPTH:<20}\n" \
+            f"config: {CONFIG:<20}")
     
 	print(f"IPC version: {q.protocol_version}. Is connected: {q.is_connected()}")
 	
