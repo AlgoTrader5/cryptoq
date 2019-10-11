@@ -16,11 +16,11 @@ sys.path.append(root + '/python')
 
 # parse args from command line
 parser = argparse.ArgumentParser()
-parser.add_argument("-p", "--port", type=int, help='QConnection port')
+parser.add_argument("--q-port", dest="q_port", type=int, default=5002, help='QConnection port')
 args = parser.parse_args()
 
 # create connection object
-q = qconnection.QConnection(host='localhost', port=args.port, pandas=True)
+q = qconnection.QConnection(host='localhost', port=args.q_port, pandas=True)
 # initialize connection
 q.open()
 print(f"IPC version: {q.protocol_version}. Is connected: {q.is_connected()}")
@@ -52,10 +52,10 @@ def insert_data(exch, sym, refdata):
         minSize = refdata['limits']['amount']['min'] \
                 if refdata['limits']['amount']['min'] else 0.0
 
-    
     qStr = f"`refdata insert (`$\"{sym}\";`$\"{exch}\";" \
             f"`float${minTick};`float${minSize};" \
             f"`float${makerFee};`float${takerFee})"
+    
     try:
         q.sendSync(qStr, param=None)
     except QException as e:
@@ -75,7 +75,6 @@ def main():
     tic = time.time()
     markets = asyncio.get_event_loop().run_until_complete(multi_tickers(exchanges))
     print("async call spend:", time.time() - tic)
-
     time.sleep(1)
     
     # write to kdb
