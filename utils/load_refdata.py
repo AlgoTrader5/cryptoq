@@ -85,6 +85,7 @@ def main():
     
     q.sendSync("show `sym xdesc select count sym by exch from refdata")
     q.close()
+    time.sleep(3)
     
 if __name__ == '__main__':
     main()
