@@ -43,14 +43,15 @@ def insert_data(exch, sym, refdata):
     try:
         makerFee = refdata['maker'] if refdata['maker'] else 0.0
         takerFee = refdata['taker'] if refdata['taker'] else 0.0
+    except KeyError as e:
+        minTick = 0.0
+        minSize = 0.0
+        
         minTick = refdata['limits']['price']['min'] \
                 if refdata['limits']['price']['min'] else 0.0
         minSize = refdata['limits']['amount']['min'] \
                 if refdata['limits']['amount']['min'] else 0.0
-    except KeyError as e:
-        minTick = 0.0
-        minSize = 0.0
-        print(f"couln't find minTick/minSize params for {sym} {exch}")
+
     
     qStr = f"`refdata insert (`$\"{sym}\";`$\"{exch}\";" \
             f"`float${minTick};`float${minSize};" \
@@ -60,8 +61,8 @@ def insert_data(exch, sym, refdata):
     except QException as e:
         print(f"Error executing query {qStr} against server. {e}")
 
-        
-if __name__ == '__main__':
+
+def main():
     from pprint import pprint
 
     # Consider review request rate limit in the methods you call
@@ -85,4 +86,7 @@ if __name__ == '__main__':
     
     q.sendSync("show `sym xdesc select count sym by exch from refdata")
     q.close()
+    
+if __name__ == '__main__':
+    main()
 
