@@ -260,7 +260,7 @@ def main():
 		p.terminate()
 		
 		# save trades and quotes tables to disk
-		data_path = os.getcwd()+"/data"
+		data_path = os.getcwd()
 		data_path = data_path.replace("\\", "/")
 		trades_path = f"`:{data_path}/trades set trades"
 		quotes_path = f"`:{data_path}/quotes set quotes"
