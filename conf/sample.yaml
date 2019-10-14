@@ -4,3 +4,9 @@ coinbase:
   - ETH-USD
   - ETH-USDC
   - ETH-BTC
+  - LTC-BTC
+  - LTC-USD
+  - ETH-DAI
+  - DAI-USDC
+  - XRP-USD
+  - XRP-BTC
