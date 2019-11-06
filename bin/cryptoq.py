@@ -14,23 +14,24 @@ from cryptofeed.exchanges import (Binance, Bitmex, Bitfinex, Bittrex, Bitstamp, 
                                   Coinbase, Coinbene, Deribit, EXX, FTX, Gemini, Kraken, 
                                   KrakenFutures, OKCoin, OKEx, Poloniex)
 
-
 from utils.utils import read_cfg, trade_convert, book_convert, load_quote_schema
 
+def get_args():
+	parser = argparse.ArgumentParser()
+	parser.add_argument("--q-port",    dest="port",     type=int, default=5002, help='QConnection port')
+	parser.add_argument("--kdb-port",  dest="kdbport",  type=int, default=5555, help='ZMQ port for kdb+ capture')
+	parser.add_argument("--gui-port",  dest="guiport",  type=int, default=5556, help='ZMQ port for gui')
+	parser.add_argument("--config",                     type=str, default='conf\\subscriptions.yaml', help='path to the config file')
+	parser.add_argument("--kdb-depth", dest="kdbdepth", type=int, default=5, help='Order Book depth for kdb+')
+	parser.add_argument("--gui-depth", dest="guidepth", type=int, default=1, help='Order Book depth for gui')
+	return parser.parse_args()
 
-parser = argparse.ArgumentParser()
-parser.add_argument("--q-port",    dest="port",     type=int, default=5002, help='QConnection port')
-parser.add_argument("--kdb-port",  dest="kdbport",  type=int, default=5555, help='ZMQ port for kdb+ capture')
-parser.add_argument("--gui-port",  dest="guiport",  type=int, default=5556, help='ZMQ port for gui')
-parser.add_argument("--config",                     type=str, default='conf\\subscriptions.yaml', help='path to the config file')
-parser.add_argument("--kdb-depth", dest="kdbdepth", type=int, default=5, help='Order Book depth for kdb+')
-parser.add_argument("--gui-depth", dest="guidepth", type=int, default=1, help='Order Book depth for gui')
-args = parser.parse_args()
+args = get_args()
 
-PORT = args.port
-CONFIG = args.config
-KDBPORT = args.kdbport
-GUIPORT = args.guiport
+PORT     = args.port
+CONFIG   = args.config
+KDBPORT  = args.kdbport
+GUIPORT  = args.guiport
 KDBDEPTH = args.kdbdepth
 GUIDEPTH = args.guidepth
 
@@ -50,12 +51,20 @@ def receiver(port):
 
 	while True:
 		data = s.recv_string()
-		if data[0] == "b":
+		msg_type = data.split("-")[1].split('-')[0]
+
+		print(f"\nmessage type: {msg_type}\n{data}")
+		
+		if msg_type == "book":
 			qStr = book_convert(data, KDBDEPTH)
-		elif data[0] == "t":
+		
+		elif msg_type == "trades":
 			qStr = trade_convert(data)
+		
 		else:
-			print("Cannot recognize data message")
+			print("Cannot recognize data message", data)
+
+		
 		try:
 			q.sendSync(qStr, param=None)
 		except QException as e:
@@ -63,12 +72,12 @@ def receiver(port):
 
 
 def main():
-	print(f"q connection port: {PORT:<20}\n" \
-            f"kdb (zmq) port: {KDBPORT:<20}\n" \
-            f"gui (zmq) port: {GUIPORT:<20}\n" \
-            f"kdb depth: {KDBDEPTH:<20}\n" \
-            f"gui depth: {GUIDEPTH:<20}\n" \
-            f"config: {CONFIG:<20}")
+	print(f"\nq connection port : {PORT}" \
+          f"\nzmq (kdb) port    : {KDBPORT}" \
+          f"\nzmq (gui) port    : {GUIPORT}" \
+          f"\nkdb depth         : {KDBDEPTH}" \
+          f"\ngui depth         : {GUIDEPTH}" \
+          f"\nconfig            : {CONFIG}")
     
 	print(f"IPC version: {q.protocol_version}. Is connected: {q.is_connected()}")
 	
@@ -80,7 +89,6 @@ def main():
 		p.start()
 
 		f = FeedHandler()
-		
 		
 		if "binance" in subscriptions.keys():
 			f.add_feed(Binance(
