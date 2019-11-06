@@ -52,8 +52,6 @@ def receiver(port):
 	while True:
 		data = s.recv_string()
 		msg_type = data.split("-")[1].split('-')[0]
-
-		print(f"\nmessage type: {msg_type}\n{data}")
 		
 		if msg_type == "book":
 			qStr = book_convert(data, KDBDEPTH)
