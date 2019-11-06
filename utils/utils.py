@@ -12,7 +12,6 @@ def read_cfg(fn: str) -> dict:
             print(e)
     return cfg
 
-
 def load_quote_schema(depth: int) -> str:
     qStr = "quotes:([]" \
             "utc_datetime:`timestamp$();exch_datetime:`timestamp$();" \
@@ -30,8 +29,10 @@ def load_quote_schema(depth: int) -> str:
 
     return qStr
 
-
 def trade_convert(data: str) -> str:
+    exch = data.split("-")[0]
+    pair = data.split(" ", 2)[0].split("-", 2)[-1]
+
     data = data.split(" ", 1)[1]
     data = json.loads(data)
     hwt = str(datetime.utcnow().isoformat()).replace("T","D").replace("-",".")
@@ -40,11 +41,11 @@ def trade_convert(data: str) -> str:
     except Exception as e:
         # kraken futures
         ts = str(datetime.fromtimestamp(data['timestamp']/1000).isoformat()).replace("T","D").replace("-",".")
-    exch = data['feed']
-    pair = data['pair']
-    side = data['side']
-    price = data['price']
+    
+    side   = data['side']
+    price  = data['price']
     amount = data['amount']
+    
     if data['id']:
         trade_id = data['id'] 
     else:
@@ -55,29 +56,34 @@ def trade_convert(data: str) -> str:
 
 
 def book_convert(data: str, depth: int) -> str:
+    feed = data.split("-")[0]
+    pair = data.split(" ", 2)[0].split("-", 2)[-1]
+    print(f"feed: {feed} pair: {pair}")
+
     data = data.split(" ", 1)[1]
     data = json.loads(data)
+    print("\n")
+    print("\nloaded json data:",data,"\n")
     hwt = str(datetime.utcnow().isoformat()).replace("T","D").replace("-",".")
 
-    if isinstance(data['data']['timestamp'], str):
-        ts = str(datetime.fromtimestamp(int(data['data']['timestamp'])).isoformat()).replace("T","D").replace("-",".")
+    if isinstance(data['timestamp'], str):
+        ts = str(datetime.fromtimestamp(int(data['timestamp'])).isoformat()).replace("T","D").replace("-",".")
     else:
-        ts = str(datetime.fromtimestamp(data['data']['timestamp']).isoformat()).replace("T","D").replace("-",".")
+        ts = str(datetime.fromtimestamp(data['timestamp']).isoformat()).replace("T","D").replace("-",".")
 
-    qStr = f"`quotes insert (`timestamp${hwt};`timestamp${ts};" \
-            f"`{data['feed']};`$\"{data['pair']}\""
+    qStr = f"`quotes insert (`timestamp${hwt};`timestamp${ts};`{feed};`$\"{pair}\""
     if depth == 1:
-        bid_price = list(data['data']['bid'])[0]
-        bid_size = float(data['data']['bid'][bid_price])
-        ask_price = list(data['data']['ask'])[0]
-        ask_size = float(data['data']['ask'][ask_price])
+        bid_price = list(data['bid'])[0]
+        bid_size  = float(data['bid'][bid_price])
+        ask_price = list(data['ask'])[0]
+        ask_size  = float(data['ask'][ask_price])
         qStr += f";`float${bid_size};`float${bid_price};`float${ask_price};`float${ask_size})"
     else:
         for i in range(depth):
-            bid_price = list(data['data']['bid'])[i]
-            bid_size = float(data['data']['bid'][bid_price])
-            ask_price = list(data['data']['ask'])[i]
-            ask_size = float(data['data']['ask'][ask_price])
+            bid_price = list(data['bid'])[i]
+            bid_size  = float(data['bid'][bid_price])
+            ask_price = list(data['ask'])[i]
+            ask_size  = float(data['ask'][ask_price])
             qStr += f";`float${bid_size};`float${bid_price}"
             qStr += f";`float${ask_price};`float${ask_size}"
 
