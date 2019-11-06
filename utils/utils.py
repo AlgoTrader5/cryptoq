@@ -58,12 +58,9 @@ def trade_convert(data: str) -> str:
 def book_convert(data: str, depth: int) -> str:
     feed = data.split("-")[0]
     pair = data.split(" ", 2)[0].split("-", 2)[-1]
-    print(f"feed: {feed} pair: {pair}")
 
     data = data.split(" ", 1)[1]
     data = json.loads(data)
-    print("\n")
-    print("\nloaded json data:",data,"\n")
     hwt = str(datetime.utcnow().isoformat()).replace("T","D").replace("-",".")
 
     if isinstance(data['timestamp'], str):
