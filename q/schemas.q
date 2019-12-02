@@ -6,6 +6,11 @@ refdata:([]
 	makerFee:`float$();
 	takerFee:`float$());
 
+fixlog:([]
+	utc_datetime:`timestamp$();
+	msg_type:`symbol$();
+	msg:`symbol$());
+
 
 trades:([]
 	utc_datetime:`timestamp$();
