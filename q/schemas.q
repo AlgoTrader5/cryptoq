@@ -22,3 +22,15 @@ trades:([]
 	price:`float$();
 	tradeid:`symbol$());
 
+
+execs:([]
+	utc_datetime:`timestamp$();
+	exch_time:`symbol$();
+	exch:`symbol$();
+	sym:`symbol$();
+	side:`symbol$();
+	price:`float$();
+	exec_qty:`float$();
+	trade_id:`symbol$();
+	isTaker:`symbol$());
+
