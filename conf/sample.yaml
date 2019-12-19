@@ -6,7 +6,13 @@ coinbase:
   - ETH-BTC
   - LTC-BTC
   - LTC-USD
-  - ETH-DAI
-  - DAI-USDC
-  - XRP-USD
-  - XRP-BTC
+binance_us:
+  - BTC-USD
+  - BTC-USDT
+  - BNB-USD
+  - BNB-USDT
+  - BNB-BTC
+  - ETH-USD
+  - ETH-BTC
+  - LTC-USD
+  - LTC-BTC
