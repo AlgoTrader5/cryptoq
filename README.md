@@ -20,7 +20,7 @@ kraken:
     - BTC-USD
     - LTC-USD
 ```
-Or you can use the config ui:
+Or you can use the config ui (still in development):
 ```shell
 start_config_ui.bat
 ```
