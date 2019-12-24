@@ -51,18 +51,16 @@ def receiver(port):
 
 	while True:
 		data = s.recv_string()
+        
 		msg_type = data.split("-")[1].split('-')[0]
-		
 		if msg_type == "book":
 			qStr = book_convert(data, KDBDEPTH)
-		
 		elif msg_type == "trades":
 			qStr = trade_convert(data)
-		
 		else:
 			print("Cannot recognize data message", data)
-
-		
+            return
+        
 		try:
 			q.sendSync(qStr, param=None)
 		except QException as e:
