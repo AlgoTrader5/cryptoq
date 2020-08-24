@@ -19,7 +19,7 @@ from utils.utils import read_cfg, trade_convert, book_convert, load_quote_schema
 def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--q-port",    dest="port",      type=int, default=5002,                       help='QConnection port')
-    parser.add_argument("--kdb-port",  dest="kdb_port",  type=int, default=5555,                       help='ZMQ port for kdb+ capture')
+    parser.add_argument("--zmq-port",  dest="zmq_port",  type=int, default=5555,                       help='ZMQ port for kdb+ capture')
     parser.add_argument("--config",                      type=str, default='conf\\subscriptions.yaml', help='path to the config file')
     parser.add_argument("--depth",     dest="depth",     type=int, default=5,                          help='Order Book depth for kdb+')
     return parser.parse_args()
@@ -64,40 +64,44 @@ def receiver(port, depth):
 def main():
     args = get_args()
     print(f"\nq connection port : {args.port}" \
-          f"\nzmq (kdb) port    : {args.kdb_port}" \
+          f"\nzmq (kdb) port    : {args.zmq_port}" \
           f"\ndepth             : {args.depth}" \
           f"\nconfig            : {args.config}")
     
-    print(f"reading subscriptions from {args.config} file")
     subscriptions = read_cfg(args.config)
     print(f"IPC version: {q.protocol_version}. Is connected: {q.is_connected()}")
+    
     try:
-        p = Process(target=receiver, args=(args.kdb_port,args.depth,))
+        p = Process(target=receiver, args=(args.zmq_port, args.depth,))
         p.start()
         f = FeedHandler()
+        
         if "binance_us" in subscriptions.keys():
             f.add_feed(BinanceUS(
                 max_depth=args.depth,
                 channels=[L2_BOOK, TRADES], 
                 pairs=subscriptions['binance_us'], 
                 callbacks={
-                    TRADES: [TradeZMQ(port=args.kdb_port)],
-                    L2_BOOK: [BookZMQ(depth=args.depth, port=args.kdb_port)]}))
+                    TRADES: [TradeZMQ(port=args.zmq_port)],
+                    L2_BOOK: [BookZMQ(depth=args.depth, port=args.zmq_port)]}))
+        
         if "coinbase" in subscriptions.keys():
             f.add_feed(Coinbase(
                 max_depth=args.depth,
                 channels=[L2_BOOK, TRADES], 
                 pairs=subscriptions['coinbase'], 
                 callbacks={
-                    TRADES: [TradeZMQ(port=args.kdb_port)],
-                    L2_BOOK: [BookZMQ(depth=args.depth, port=args.kdb_port)]}))
+                    TRADES: [TradeZMQ(port=args.zmq_port)],
+                    L2_BOOK: [BookZMQ(depth=args.depth, port=args.zmq_port)]}))
+        
         if "kraken" in subscriptions.keys():
             f.add_feed(Kraken(
                 channels=[L2_BOOK, TRADES], 
                 pairs=subscriptions['kraken'], 
                 callbacks={
-                    TRADES: [TradeZMQ(port=args.kdb_port)],
-                    L2_BOOK: [BookZMQ(depth=args.depth, port=args.kdb_port)]}))
+                    TRADES: [TradeZMQ(port=args.zmq_port)],
+                    L2_BOOK: [BookZMQ(depth=args.depth, port=args.zmq_port)]}))
+
         f.run()
 
     except KeyboardInterrupt:
