@@ -29,12 +29,12 @@ def load_quote_schema(depth: int) -> str:
 
     return qStr
 
-def trade_convert(data: str) -> str:
-    exch = data.split("-")[0]
-    pair = data.split(" ", 2)[0].split("-", 2)[-1]
+def trade_convert(topic, data: str) -> str:
+    exch = topic.split("-")[0]
+    pair = topic.split(" ", 2)[0].split("-", 2)[-1]
 
-    data = data.split(" ", 1)[1]
     data = json.loads(data)
+
     hwt = str(datetime.utcnow().isoformat()).replace("T","D").replace("-",".")
     try:
         ts = str(datetime.fromtimestamp(data['timestamp']).isoformat()).replace("T","D").replace("-",".")
@@ -46,20 +46,22 @@ def trade_convert(data: str) -> str:
     price  = data['price']
     amount = data['amount']
     
+    # somtimes exchanges do not provide trade ID
     if data['id']:
         trade_id = data['id'] 
     else:
         trade_id = 0
+    
     return f"`trades insert (`timestamp${hwt};`timestamp${ts};" \
             f"`{exch};`$\"{pair}\";`{side};`float${amount};" \
             f"`float${price};`$\"{trade_id}\")"
 
 
-def book_convert(data: str, depth: int) -> str:
-    feed = data.split("-")[0]
-    pair = data.split(" ", 2)[0].split("-", 2)[-1]
+def book_convert(topic: str, data: str, depth: int) -> str:
+    feed = topic.split("-")[0]
+    pair = topic.split(" ", 2)[0].split("-", 2)[-1]
 
-    data = data.split(" ", 1)[1]
+    # data = data.split(" ", 1)[1]
     data = json.loads(data)
     hwt = str(datetime.utcnow().isoformat()).replace("T","D").replace("-",".")
 
@@ -83,6 +85,5 @@ def book_convert(data: str, depth: int) -> str:
             ask_size  = float(data['ask'][ask_price])
             qStr += f";`float${bid_size};`float${bid_price}"
             qStr += f";`float${ask_price};`float${ask_size}"
-
         qStr += ")"
     return qStr
