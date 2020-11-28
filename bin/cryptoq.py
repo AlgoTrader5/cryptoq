@@ -24,9 +24,8 @@ def get_args():
     parser.add_argument("--depth",     dest="depth",     type=int, default=5,                          help='Order Book depth for kdb+')
     return parser.parse_args()
 
+  
 args = get_args()
-
-
 
 # create connection object
 q = qconnection.QConnection(host='localhost', port=args.port, pandas=True)
@@ -34,6 +33,7 @@ q.open()
 
 # create quotes table in kdb+
 q.sendSync(load_quote_schema(args.depth))
+
 
 def receiver(port, depth):
     ctx = zmq.Context.instance()
