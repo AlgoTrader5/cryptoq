@@ -13,21 +13,28 @@ def read_cfg(fn: str) -> dict:
     return cfg
 
 def load_quote_schema(depth: int) -> str:
-    qStr = "quotes:([]" \
+    """ Returns quote table schema to be loaded at start of q session.
+    
+    >>> load_quote_schema(2)
+    
+    'quotes:([]utc_datetime:`timestamp$();exch_datetime:`timestamp$();exch:`symbol$();sym:`symbol$(); \
+             bsize:`float$();bid:`float$();ask:`float$();asize:`float$();bsize1:`float$();bid1:`float$(); \
+             ask1:`float$();asize1:`float$())'
+    """
+    qstr = "quotes:([]" \
             "utc_datetime:`timestamp$();exch_datetime:`timestamp$();" \
             "exch:`symbol$();sym:`symbol$()"
     if depth > 1:
         for i in range(depth):
             if i == 0:
-                qStr += ";bsize:`float$();bid:`float$();ask:`float$();asize:`float$()"
+                qstr += ";bsize:`float$();bid:`float$();ask:`float$();asize:`float$()"
             else:
-                qStr += f";bsize{i}:`float$();bid{i}:"
-                qStr += f"`float$();ask{i}:`float$();asize{i}:`float$()"
-        qStr += ")"
+                qstr += f";bsize{i}:`float$();bid{i}:"
+                qstr += f"`float$();ask{i}:`float$();asize{i}:`float$()"
+        qstr += ")"
     else:
-        qStr += ";bsize:`float$();bid:`float$();ask:`float$();asize:`float$())"
-
-    return qStr
+        qstr += ";bsize:`float$();bid:`float$();ask:`float$();asize:`float$())"
+    return qstr
 
 def trade_convert(topic, data: str) -> str:
     exch = topic.split("-")[0]
@@ -70,20 +77,20 @@ def book_convert(topic: str, data: str, depth: int) -> str:
     else:
         ts = str(datetime.fromtimestamp(data['timestamp']).isoformat()).replace("T","D").replace("-",".")
 
-    qStr = f"`quotes insert (`timestamp${hwt};`timestamp${ts};`{feed};`$\"{pair}\""
+    qstr = f"`quotes insert (`timestamp${hwt};`timestamp${ts};`{feed};`$\"{pair}\""
     if depth == 1:
         bid_price = list(data['bid'])[0]
         bid_size  = float(data['bid'][bid_price])
         ask_price = list(data['ask'])[0]
         ask_size  = float(data['ask'][ask_price])
-        qStr += f";`float${bid_size};`float${bid_price};`float${ask_price};`float${ask_size})"
+        qstr += f";`float${bid_size};`float${bid_price};`float${ask_price};`float${ask_size})"
     else:
         for i in range(depth):
             bid_price = list(data['bid'])[i]
             bid_size  = float(data['bid'][bid_price])
             ask_price = list(data['ask'])[i]
             ask_size  = float(data['ask'][ask_price])
-            qStr += f";`float${bid_size};`float${bid_price}"
-            qStr += f";`float${ask_price};`float${ask_size}"
-        qStr += ")"
-    return qStr
+            qstr += f";`float${bid_size};`float${bid_price}"
+            qstr += f";`float${ask_price};`float${ask_size}"
+        qstr += ")"
+    return qstr
